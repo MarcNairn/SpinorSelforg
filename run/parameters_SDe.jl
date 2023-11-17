@@ -11,6 +11,7 @@ num_monte = 100
 tspan = (0.0, 800.0)
 
 temp = 10
+
 p = System_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)
 
 ps = System_p[]

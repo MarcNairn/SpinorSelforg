@@ -1,5 +1,5 @@
 include("lib_parallel.jl")
-include("src/custom_functions.jl")
+include("../src/custom_functions.jl")
 
 @everywhere include("./parameters_SDe.jl")
 

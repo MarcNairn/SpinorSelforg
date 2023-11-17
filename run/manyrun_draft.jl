@@ -1,7 +1,10 @@
 ### THIS SCRIPT USES THE FUNCTIONALITIES DEFINED IN selforg_core.jl TO RUN THE NUMERICS OVER A RANGE OF PARAMETERS ###
 
 using JLD2
-include("src/selforg_core.jl")
+using Distributed
+
+
+@everywhere include("../src/selforg_core.jl")
 
 g_init_value = 10
 g_final_value = 50

@@ -3,4 +3,4 @@ Pkg.activate("..")
 
 using DifferentialEquations: solve, SOSRA
 
-include("src/selforg_core.jl") 
+include("../src/selforg_core.jl") 
