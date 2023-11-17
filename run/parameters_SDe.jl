@@ -6,11 +6,11 @@ S₁ = 4κ/sqrt(N)
 S₂ = 4κ/sqrt(N)
 Δₑ = κ/100
 Δc = -κ
-num_monte = 29
+num_monte = 100
 
-tspan = (0.0, 100.0)
+tspan = (0.0, 800.0)
 
-temp = κ
+temp = 10
 p = System_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)
 
 ps = System_p[]
