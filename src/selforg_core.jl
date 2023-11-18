@@ -12,8 +12,8 @@
     using LaTeXStrings
     using Printf
     using DataFrames
-    using Logging: global_logger
-    using TerminalLoggers: TerminalLogger
+    #using Logging: global_logger
+    #using TerminalLoggers: TerminalLogger
 
     #addprocs(8)
     using DifferentialEquations #use of @everywhere for trajectory parallelisation

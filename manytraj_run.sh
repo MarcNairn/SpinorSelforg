@@ -6,7 +6,7 @@
 # 8 GB memory required per node
 #SBATCH --mem=4G
 # Maximum run time of job
-#SBATCH --time=6:00:00
+#SBATCH --time=3:00:00
 # Give job a reasonable name
 #SBATCH --job-name=many_trajectory_draft
 # File name for standard output (%j will be replaced by job id)

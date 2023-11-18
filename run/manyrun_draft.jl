@@ -6,8 +6,8 @@ using Distributed
 
 @everywhere include("../src/selforg_core.jl")
 
-g_init_value = 10
-g_final_value = 50
+g_init_value = 30
+g_final_value = 35
 t_range = 800
 N_MC = 100
 N_spin = 100
