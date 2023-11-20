@@ -19,7 +19,7 @@ using Random
 @everywhere include("../parameters_SDe.jl")
 
 sim = many_trajectory_solver(ps[i],saveat=10.0, seed=abs(rand(Int), maxiters=Int(1.0e9)))
-save_datal("data_vs_phi_S4_part" * string(i) * ".jld2",sim)
+save_datal("data_vs_pump_S4_part" * string(i) * ".jld2",sim)
 
 
 # for (i, psi) in enumerate(ps)
