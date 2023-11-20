@@ -11,7 +11,7 @@ num_monte = 3
 tspan = (0.0, 400.0)
 
 temp = 1κ
-p = System1_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)
+p = System_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)
 
 ps = System1_p[]
 for S₁ in range(κ/sqrt(N)/2,stop=4κ/sqrt(N),length=17)

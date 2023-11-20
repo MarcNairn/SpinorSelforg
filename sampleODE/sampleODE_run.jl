@@ -1,4 +1,4 @@
-addprocs(SlurmManager(5), t="00:10:00")
+addprocs(SlurmManager(5))
 
 @everywhere using DifferentialEquations
 
