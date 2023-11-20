@@ -12,11 +12,7 @@
     using LaTeXStrings
     using Printf
     using DataFrames
-    #using Logging: global_logger
-    #using TerminalLoggers: TerminalLogger
-
-    #addprocs(8)
-    using DifferentialEquations #use of @everywhere for trajectory parallelisation
+    using DifferentialEquations 
 
 
     #define parameter struct
