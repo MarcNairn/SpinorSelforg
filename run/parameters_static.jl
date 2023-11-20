@@ -6,7 +6,7 @@ S₁ = 5κ/sqrt(N)
 S₂ = 5κ/sqrt(N)
 Δₑ = 10
 Δc = -κ
-num_monte = 50
+num_monte = 48
 
 tspan = (0.0, 400.0)
 
