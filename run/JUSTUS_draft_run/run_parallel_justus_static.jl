@@ -17,8 +17,8 @@ using Random
 
 @everywhere include("../parameters_static.jl")
 
-sim = many_trajectory_solver(p,saveat=10.0, seed=abs(rand(Int), maxiters=Int(1.0e9)))
-save_datal("data_vs_pump_S4_part" * string(i) * ".jld2",sim)
+sim = many_trajectory_solver(p,saveat=10.0, seed=abs(rand(Int)), maxiters=Int(1.0e9))
+save_datal("static_pump$(p.S₁, p.S₂).jld2",sim)
 
 for i in workers()
 	rmprocs(i)

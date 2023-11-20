@@ -10,4 +10,4 @@
 # File name for error output
 #SBATCH --error=serial_job-%j.err
 
-julia run_parallel_justus_pump.jl 50 $1
+julia run/JUSTUS_draft_run/run_parallel_justus_pump.jl 50 $1
