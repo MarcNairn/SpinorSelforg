@@ -1,4 +1,6 @@
-using DifferentialEquations
+addprocs(SlurmManager(5), t="00:10:00")
+
+@everywhere using DifferentialEquations
 
 # Linear ODE start at 0.5 and solves from t=0.0 to t=1.0
 prob = ODEProblem((u, p, t) -> 1.01u, 0.5, (0.0, 1.0))
@@ -8,7 +10,7 @@ function prob_func(prob, i, repeat)
 end
 
 ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
-elt = @elapsed sim = solve(ensemble_prob, Tsit5(), EnsembleDistributed(), trajectories = 1000)
+elt = @elapsed sim = solve(ensemble_prob, Tsit5(), EnsembleDistributed(), trajectories = 5)
 println("done in $elt seconds")
 
 for i in workers()
