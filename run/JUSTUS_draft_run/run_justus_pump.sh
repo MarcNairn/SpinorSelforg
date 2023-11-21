@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Number of nodes to allocate, always 1
 #SBATCH --nodes=1

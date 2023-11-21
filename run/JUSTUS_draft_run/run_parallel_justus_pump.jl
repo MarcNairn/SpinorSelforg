@@ -2,7 +2,7 @@ using Pkg
 Pkg.activate("..")
 
 using Distributed
-using ClusterManagers
+@everywhere using ClusterManagers
 
 #np = parse(Int,ARGS[1])
 i = parse(Int,ARGS[2])
