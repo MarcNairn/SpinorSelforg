@@ -1,3 +1,6 @@
+using Distributed
+using ClusterManagers
+
 addprocs(SlurmManager(5))
 
 @everywhere using DifferentialEquations

@@ -17,5 +17,5 @@
 
 
 
-srun julia sampleODE_run.jl
+srun julia sampleODE/sampleODE_run.jl
 # Execute the simulation script in the background
