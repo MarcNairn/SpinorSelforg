@@ -1,10 +1,13 @@
 #!/bin/bash
-# Allocate one node
+# Number of nodes to allocate, always 1
 #SBATCH --nodes=1
-# Number of program instances to be executed
+# Number of MPI instances (ranks) to be executed per node, always 1
 #SBATCH --ntasks-per-node=1
-# 8 GB memory required per node
-#SBATCH --mem=4G
+#SBATCH --cpus-per-task=48
+#SBATCH --time=00:10:00
+#SBATCH --mem=2G
+# Configure array parameters, split job in parts labeled 0-x. (only one job x=0)
+#SBATCH --array 0-0
 # Give job a reasonable name
 #SBATCH --job-name=julia_ODE_test
 # File name for standard output (%j will be replaced by job id)

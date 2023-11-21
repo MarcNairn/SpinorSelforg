@@ -10,7 +10,7 @@ function prob_func(prob, i, repeat)
 end
 
 ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
-elt = @elapsed sim = solve(ensemble_prob, Tsit5(), EnsembleDistributed(), trajectories = 5)
+elt = @elapsed sim = solve(ensemble_prob, Tsit5(), EnsembleDistributed(), trajectories = 48)
 println("done in $elt seconds")
 
 for i in workers()
