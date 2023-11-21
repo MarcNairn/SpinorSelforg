@@ -6,7 +6,7 @@ S₁ = 4κ/sqrt(N)
 S₂ = 4κ/sqrt(N)
 Δₑ = κ/100
 Δc = -κ
-num_monte = 100
+num_monte = parse(Int,ARGS[1])
 
 tspan = (0.0, 800.0)
 

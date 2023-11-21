@@ -6,7 +6,7 @@ S₁ = 5κ/sqrt(N)
 S₂ = 5κ/sqrt(N)
 Δₑ = 10
 Δc = -κ
-num_monte = parse(Int, ARGS[1]) #match number of trajectories to number of cpus used per node
+num_monte = parse(Int, ARGS[1]) #match number of trajectories to number of cpus used per node (Nnode=1)
 
 tspan = (0.0, 400.0)
 

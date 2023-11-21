@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in {1..31}; do
+for i in {1..51}; do
     echo submitting job $i
 		sbatch run_justus_pump.sh $i
 		sleep 2s
