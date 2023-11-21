@@ -9,4 +9,4 @@
 #SBATCH --output=parallel_simulation-%j.out
 #SBATCH --error=parallel_simulation-%j.err
 
-srun julia sampleODE/simplesolve.jl
+srun julia -p $SLURM_CPUS_PER_TASK sampleODE/simplesolve.jl

@@ -2,11 +2,10 @@ using Pkg
 Pkg.activate("..")
 
 using Distributed
-using ClusterManagers
+@everywhere using ClusterManagers
 
 np = parse(Int,ARGS[1])
 
-addprocs(SlurmManager(np))
 
 @everywhere push!(LOAD_PATH,"../src")
 @everywhere include("../load.jl")

@@ -1,17 +1,15 @@
-@everywhere using Distributed
+using Distributed
 @everywhere using DifferentialEquations
 @everywhere using ClusterManagers
 @everywhere using JLD2
 
 # Number of trajectories
-num_trajectories = 40
+num_trajectories = parse(Int, ARGS[1]) #to match the number of cpus per task to be used
 
 # Set up the SlurmManager to add worker processes
-@everywhere println("Number of workers before addprocs: ", nworkers()) # for diagnostics
-@everywhere addprocs(SlurmManager(num_trajectories))
-@everywhere println("Number of workers after addprocs: ", nworkers())
+@everywhere println("Number of workers initiated: ", nworkers()) # for diagnostics
 
-# @everywhere macro ensures that simple_ode! is defined on all workers
+
 @everywhere function simple_ode!(du, u, p, t)
     du[1] = -0.1 * u[1]
 end
