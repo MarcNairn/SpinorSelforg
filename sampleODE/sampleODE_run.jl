@@ -1,7 +1,7 @@
 using Distributed
 using ClusterManagers
 
-addprocs(SlurmManager(5))
+addprocs(SlurmManager(48))
 
 @everywhere using DifferentialEquations
 

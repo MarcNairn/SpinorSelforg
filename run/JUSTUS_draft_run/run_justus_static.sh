@@ -7,7 +7,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=48
 #SBATCH --time=01:00:00
-#SBATCH --mem=2G
+#SBATCH --mem=4gb
 # Configure array parameters, split job in parts labeled 0-x. (only one job x=0)
 #SBATCH --array 0-0
 # Give job a reasonable name

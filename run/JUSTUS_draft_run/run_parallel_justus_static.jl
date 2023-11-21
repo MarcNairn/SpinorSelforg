@@ -13,8 +13,6 @@ addprocs(SlurmManager(np))
 
 using Random
 
-# Random.seed!(232344)
-
 @everywhere include("../parameters_static.jl")
 
 sim = many_trajectory_solver(p,saveat=10.0, seed=abs(rand(Int)), maxiters=Int(1.0e9))
