@@ -13,9 +13,9 @@
 # Give job a reasonable name
 #SBATCH --job-name=static_pump_Nmc
 # File name for standard output (%j will be replaced by job id)
-#SBATCH --output=serial_job-%j.out
+#SBATCH --output=static_pump_Nmc-%j.out
 # File name for error output
-#SBATCH --error=serial_job-%j.err
+#SBATCH --error=static_pump_Nmc-%j.err
 
 srun julia run/JUSTUS_draft_run/run_parallel_justus_static.jl 48 
 
