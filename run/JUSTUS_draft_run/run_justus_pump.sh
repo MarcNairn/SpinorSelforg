@@ -16,4 +16,6 @@
 # File name for error output
 #SBATCH --error=pump_range_Nmc-%j.err
 
-srun julia -p run/JUSTUS_draft_run/run_parallel_justus_pump.jl $SLURM_CPUS_PER_TASK $SLURM_ARRAY_TASK_ID
+srun julia -p $SLURM_CPUS_PER_TASK run/JUSTUS_draft_run/run_parallel_justus_pump.jl $SLURM_CPUS_PER_TASK $SLURM_ARRAY_TASK_ID
+
+#creates $SLURM_CPUS_PER_TASK julia processes and each of the julia processes is called with the arguments $SLURM_CPUS_PER_TASK $SLURM_ARRAY_TASK_ID which may then be parsed inside the file.

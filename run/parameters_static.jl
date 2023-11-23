@@ -8,7 +8,7 @@ S₂ = 5κ/sqrt(N)
 Δc = -κ
 num_monte = parse(Int, ARGS[1]) #match number of trajectories to number of cpus used per node (Nnode=1)
 
-tspan = (0.0, 400.0)
+tspan = (0.0, 800.0)
 
 temp = 10
 p = System_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)

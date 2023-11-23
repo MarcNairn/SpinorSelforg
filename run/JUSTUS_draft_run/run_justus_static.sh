@@ -17,7 +17,7 @@
 # File name for error output
 #SBATCH --error=static_pump_Nmc-%j.err
 
-srun julia -p $SLURM_CPUS_PER_TASK run/JUSTUS_draft_run/run_parallel_justus_static.jl  
+srun julia -p $SLURM_CPUS_PER_TASK run/JUSTUS_draft_run/run_parallel_justus_static.jl $SLURM_CPUS_PER_TASK 
 
 # you can check the current log of all jobs with the command
 # tail -fn 10 [FILENAME]-*
