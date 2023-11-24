@@ -1,6 +1,5 @@
 module LPlots
 
-#using System1
 
 using DiffEqBase
 using LaTeXStrings

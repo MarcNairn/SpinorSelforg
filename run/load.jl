@@ -3,4 +3,6 @@ Pkg.activate("..")
 
 using DifferentialEquations
 
-include("../src/selforg_core.jl") 
+push!(LOAD_PATH, "../src")
+
+using .Selforg

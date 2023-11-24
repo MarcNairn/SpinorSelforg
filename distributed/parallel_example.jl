@@ -1,20 +1,28 @@
-using Distributed   
-@everywhere using ClusterManagers
+using DifferentialEquations
+using JLD2
 
-println("Workers before: ", nworkers())
-println("Processes before: ", nprocs())
-
-
-np = parse(Int,ARGS[1])
-array = parse(Int, ARGS[2])
-
-addprocs(SlurmManager(np))
-
-println("Workers after: ", nworkers())
-println("Processes afer: ", nprocs())
-
-println("Passed array size: ", array)
-
-for i in nworkers()
-    rmprocs(i)
+ function simple_ode!(du, u, p, t)
+    du[1] = -0.1 * u[1]
 end
+
+u0 = [1.0]
+
+tspan = (0.0, 10.0)
+prob = ODEProblem(simple_ode!, u0, tspan)
+
+ function prob_func(prob, i, repeat)
+    remake(prob, u0 = rand() * prob.u0)
+end
+
+ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
+
+println("Start of computation")
+@time sim = solve(ensemble_prob, Tsit5(), trajectories = 1)
+println("End of computation")
+
+
+# Save the results to a data file
+output_file = "cluster_data/parallel_sim_example.jld2"
+save(output_file, "sim", sim)
+
+println("REACHED THE END")

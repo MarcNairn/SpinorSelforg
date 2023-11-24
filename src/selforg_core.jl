@@ -3,7 +3,10 @@
     # for more info look up documentation on 
     # https://docs.sciml.ai/DiffEqDocs/stable/features/ensemble
 
-    include("custom_functions.jl")
+
+    module Selforg
+
+    using .CustomFunctions # .imports module without running 
 
     using Plots 
     using Random
@@ -158,8 +161,8 @@ end
 
     function many_trajectory_solver(p::System_p;saveat::Float64=10.0,seed::Int=abs(rand(Int)),maxiters::Int=Int(1e9))
         prob, monte_prob = define_prob_from_parameters(p,seed)
-        print("calculating $(p.N_MC) trajectories on $(gethostname()) with $(nworkers()) workers..")
-        elt = @elapsed sim = solve(monte_prob::EnsembleProblem, SOSRA(), EnsembleDistributed(),  trajectories=p.N_MC, saveat=saveat, maxiters=maxiters, progress=true)
+        #print("calculating $(p.N_MC) trajectories on $(gethostname()) with $(nworkers()) workers..")
+        elt = @elapsed sim = solve(monte_prob::EnsembleProblem, SOSRA(), trajectories=p.N_MC, saveat=saveat, maxiters=maxiters, progress=true)
         # EnsembleDistributed() recommended here when each trajectory is not very quick (like here)
         println("done in $elt seconds.")
         return sim
@@ -176,6 +179,103 @@ end
         return sim
     end
 
+
+    
+
+function get_last_steps(sol::Sol)
+    Sol(sol.u[:,end-1:end],sol.p,sol.t[end-1:end],sol.alg)
+end
+
+function get_last_steps(sim::Array{Sol,1})
+    [get_last_steps(sol) for sol in sim]
+end
+
+function regenerate_prob(sol::Sol,deltat::Real)
+    u0 = sol.u[:,end]
+    p = sol.p
+    tspan = (sol.t[end], sol.t[end]+deltat)
+    prob = SDEProblem(f,f_noise,u0,tspan,p)
+end
+
+function regenerate_prob(sim::Array{Sol,1},deltat::Real)
+    prob =  regenerate_prob(sim[1],deltat)
+    function prob_func(prob,i,repeat)
+        regenerate_prob(sim[i],deltat)
+    end
+
+    monte_prob = EnsembleProblem(prob,prob_func=prob_func)
+end
+
+function stringfromp(p)
+    U₁,U₂,S₁,S₂,Δₑ,Δc,κ,N = parsfromp(p)
+    str1 = @sprintf("U1%.4f_U2%.4f_S1%.4f%+.4fim_S2%.4f%+.4fim_De%.4f_Dc%.4f_k%.4f_N%d", U₁,U₂,real(S₁),imag(S₁),real(S₂),imag(S₂),Δₑ,Δc,κ,N)
+end
+
+function pfromstring(str::String)
+    x = split(str,'_')
+    U₁ = parse(Float64,x[1][3:end])
+    U₂ = parse(Float64,x[2][3:end])
+    S₁ = parse(Complex{Float64},x[3][3:end])
+    S₂ = parse(Complex{Float64},x[4][3:end])
+    Δₑ = parse(Float64,x[5][3:end])
+    Δc = parse(Float64,x[6][3:end])
+    κ = parse(Float64,x[7][2:end])
+    N = parse(Int,x[8][2:end])
+    return U₁,U₂,S₁,S₂,Δₑ,Δc,κ,N
+end
+
+function join_trajectories(sim::Array{Sol,1})
+    idx = size(sim[1].t)[1]
+    join_trajectories(sim,idx)
+end
+
+function join_trajectories(sim::Array{Sol,1},idx)
+    N::Int = try sim[1].p.N catch; sim[1].p[10] end # for backward compatibility
+
+    ntraj = size(sim)[1]
+
+    u0 = zeros(ntraj*size(sim[1].u)[1])
+
+    for i in 1:ntraj
+        u0[range((i-1)*N+1,length=N)] = sim[i].u[1:N,idx]
+        u0[range((ntraj+i-1)*N+1,length=N)] = sim[i].u[N+1:2N,idx]
+        u0[range((2ntraj+i-1)*N+1,length=N)] = sim[i].u[2N+1:3N,idx]
+        u0[range((3ntraj+i-1)*N+1,length=N)] = sim[i].u[3N+1:4N,idx]
+        u0[range((4ntraj+i-1)*N+1,length=N)] = sim[i].u[4N+1:5N,idx]
+        u0[range(5ntraj*N+(i-1)*2+1,length=2)] = sim[i].u[5N+1:5N+2,idx]
+    end
+    u0
+end
+
+function sim2df(sim::Array{Sol,1})
+    nvars = size(sim[1].u)[1]
+    N::Int = (nvars-2)/5
+
+    value_names = Symbol[]
+    for var in ["x_","p_","sx_","sy_","sz_"]
+        for i = 1:N
+            push!(value_names,Symbol(var*"$i"))
+        end
+    end
+    push!(value_names, :a_r)
+    push!(value_names, :a_i)
+    # push!(value_names, :timestamp)
+    # push!(value_names, :traj)
+
+    dfs = DataFrame[]
+    for (k,sol) in enumerate(sim)
+        dict = Dict{Symbol,Any}(value_names[i] => sol.u[i,:] for i = 1:nvars)
+        dict[:a_r] = sol.u[5N+1,:]
+        dict[:a_i] = sol.u[5N+2,:]
+        for (o_, o) in observable_dict
+            dict[o_] = expect(o,sol)
+        end
+        dict[:timestamp] = sol.t
+        dict[:traj] = k
+        push!(dfs,DataFrame(dict))
+    end
+    vcat(dfs...)
+end
 ######################################################################
 
 ############################## OBSERVABLES ###########################
