@@ -14,3 +14,7 @@ println("Workers after: ", nworkers())
 println("Processes afer: ", nprocs())
 
 println("Passed array size: ", array)
+
+for i in nworkers()
+    rmprocs(i)
+end
