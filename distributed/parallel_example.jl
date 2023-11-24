@@ -5,6 +5,8 @@ using JLD2
     du[1] = -0.1 * u[1]
 end
 
+index = ARGS[1]
+
 u0 = [1.0]
 
 tspan = (0.0, 10.0)
@@ -22,7 +24,7 @@ println("End of computation")
 
 
 # Save the results to a data file
-output_file = "cluster_data/parallel_sim_example.jld2"
+output_file = "distributed/cluster_data/parallel_sim_example_$(index).jld2"
 save(output_file, "sim", sim)
 
 println("REACHED THE END")
