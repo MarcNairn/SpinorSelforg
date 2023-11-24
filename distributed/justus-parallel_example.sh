@@ -8,18 +8,16 @@
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=8gb
 # Configure array parameters, split job in parts labeled 0-x. (only one job x=0)
-#SBATCH --array 0-32
+#SBATCH --array 0-0
 # Give job a reasonable name
-#SBATCH --job-name=pump_range_Nmc
+#SBATCH --job-name=dist-test
 # File name for standard output (%j will be replaced by job id)
-#SBATCH --output=pump_range_Nmc-%j.out
+#SBATCH --output=dist-test-%j.out
 # File name for error output
-#SBATCH --error=pump_range_Nmc-%j.err
+#SBATCH --error=dist-test-%j.err
 
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export HOME=~
 
-srun julia -p ${SLURM_CPUS_PER_TASK} run/JUSTUS_draft_run/run_parallel_justus_pump.jl ${SLURM_CPUS_PER_TASK} ${SLURM_ARRAY_TASK_ID}
-
-#creates $SLURM_CPUS_PER_TASK julia processes and each of the julia processes is called with the arguments $SLURM_CPUS_PER_TASK $SLURM_ARRAY_TASK_ID which may then be parsed inside the file.
+srun julia distributed/parallel_example.jl ${SLURM_CPUS_PER_TASK} ${SLURM_ARRAY_TASK_ID}
