@@ -13,8 +13,8 @@ tspan = (0.0, 400.0)
 temp = 1κ
 p = System_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)
 
-ps = System1_p[]
-for S₁ in range(κ/sqrt(N)/2,stop=4κ/sqrt(N),length=17)
+ps = System_p[]
+for S₁ in range(κ/sqrt(N)/2,stop=5κ/sqrt(N),length=30)
     S₂ = S₁
     p = System1_p(U₁,U₂,S₁,S₂,Δₑ,Δc,κ,temp,N,tspan,num_monte)
     push!(ps,p)
