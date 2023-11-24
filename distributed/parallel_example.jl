@@ -5,7 +5,7 @@ using JLD2
     du[1] = -0.1 * u[1]
 end
 
-index = ARGS[1]
+index = parse(Int, ARGS[1])
 
 u0 = [1.0]
 

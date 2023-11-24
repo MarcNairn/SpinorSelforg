@@ -17,6 +17,19 @@
     using DataFrames
     using DifferentialEquations 
 
+    export f_det, f_noise
+    export Ekin,X,Y,Sx,Sy,Sz,Sx2,Sy2,Sz2,Cos2,Z,adaga,ar,absar,ai,absai,Cos
+    export absX,absY,absSx,absSy,absSz,absZ,adiabaticar,adiabaticadaga
+    export System_p
+    export Observable, observable_list, observable_dict
+    export expect, expect_full
+    export generate_spin,initial_conditions
+    export define_prob_from_parameters,regenerate_prob,get_last_steps
+    export join_trajectories,sim2df
+    export many_trajectory_solver
+    export categorize_traj, split_sim, split_simPhi
+    export split_sim_from_par, sort_sim_from_S
+
 
     #define parameter struct
     struct System_p
@@ -100,7 +113,13 @@ end
         du[5N+2] = sqrt(2*p.κ)
     end
 
-    #@everywhere 
+###INITIAL CONDITIONS###
+    
+    function generate_spin(θ, ϕ)
+        v = [cos(θ/2) sin(θ/2)*cis(ϕ)]
+        real(v*σ₁*v')[], real(v*σ₂*v')[], real(v*σ₃*v')[]
+    end
+
     function initial_conditions(p::System_p, seed=abs(rand(Int)))
         N::Int = p.N
         Random.seed!(seed) # random number generator
