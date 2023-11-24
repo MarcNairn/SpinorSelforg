@@ -10,4 +10,4 @@ export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export HOME=~
 
-srun julia distributed/parallel_example.jl ${SLURM_ARRAY_TASK_ID}
+srun julia distributed/parallel_example.jl ${SLURM_CPUS_PER_TASK} ${SLURM_ARRAY_TASK_ID}

@@ -5,7 +5,7 @@ using JLD, JLD2
 
 export extract_solution, save_datal, load_datal, Sol,merge_sol, merge_sim
 export intervallize_array, load_datall
-export yourpart
+#export yourpart
 
 struct Sol
     u::Array{Float64,2}
