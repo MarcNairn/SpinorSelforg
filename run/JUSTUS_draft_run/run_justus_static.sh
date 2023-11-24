@@ -5,11 +5,11 @@
 #SBATCH --nodes=1
 # Number of MPI instances (ranks) to be executed per node, always 1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=48
+#SBATCH --cpus-per-task=1
 #SBATCH --time=00:30:00
 #SBATCH --mem=4gb
 # Configure array parameters, split job in parts labeled 0-x. (only one job x=0)
-#SBATCH --array 0-0
+#SBATCH --array 0-999
 # Give job a reasonable name
 #SBATCH --job-name=static_pump_Nmc
 # File name for standard output (%j will be replaced by job id)
@@ -17,7 +17,7 @@
 # File name for error output
 #SBATCH --error=static_pump_Nmc-%j.err
 
-srun julia -p $SLURM_CPUS_PER_TASK run/JUSTUS_draft_run/run_parallel_justus_static.jl $SLURM_CPUS_PER_TASK 
+srun julia run/JUSTUS_draft_run/run_parallel_justus_static.jl ${SLURM_ARRAY_TASK_ID}
 
 # you can check the current log of all jobs with the command
 # tail -fn 10 [FILENAME]-*
