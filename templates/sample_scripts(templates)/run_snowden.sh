@@ -6,5 +6,5 @@
 #SBATCH --partition=oneside
 #SBATCH --mem=0
 
-#export JULIA_DEPOT_PATH=/cluster/userdata/luigi/.julia
+export JULIA_DEPOT_PATH=/cluster/userdata/luigi/.julia
 julia run_parallel_snowden.jl 50 $1
