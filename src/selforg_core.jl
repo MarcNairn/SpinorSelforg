@@ -6,7 +6,9 @@
 
     module Selforg
 
-    using .CustomFunctions # .imports module without running 
+    #using .CustomFunctions # .imports module without running 
+
+	include("custom_functions.jl")
 
     using Plots 
     using Random

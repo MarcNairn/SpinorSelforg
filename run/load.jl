@@ -1,7 +1,4 @@
 #using Pkg
 #Pkg.activate("..")
 using DifferentialEquations
-
-push!(LOAD_PATH, "../src")
-
-using .Selforg
+include("~/SpinorSelforg/src/selforg_core.jl")
