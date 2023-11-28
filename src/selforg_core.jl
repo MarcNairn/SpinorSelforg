@@ -4,13 +4,14 @@
     # https://docs.sciml.ai/DiffEqDocs/stable/features/ensemble
 
 
-    module Selforg
+    #REMOVED MODULE CALLS FOR NOW TO SIMPLIFY ANALYSIS
+    
+    #module Selforg 
 
     #using .CustomFunctions # .imports module without running 
 
 	include("custom_functions.jl")
 
-    using Plots 
     using Random
     using Distributed
     using Statistics
@@ -48,15 +49,6 @@
         N_MC::Int
     end
 
-    struct Sol
-        u::Array{Float64,2}
-        p
-        t::Array{Float64,1}
-        alg::String
-    end
-
-
-    #@everywhere 
     ##############################################################################
     ################################SYSTEM FUNCTIONS##############################
     ##############################################################################
@@ -628,3 +620,7 @@ function sort_sim_from_S(sim::Array{Sol,1}, ret_pars::Bool=false)
         return categories[sp]
     end
 end
+
+#####################
+
+#end

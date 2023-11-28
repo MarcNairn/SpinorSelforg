@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.2938725"
-     inkscape:cx="13.52529"
-     inkscape:cy="191.67268"
+     inkscape:zoom="0.64693624"
+     inkscape:cx="-153.80186"
+     inkscape:cy="374.07087"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
      inkscape:window-x="-8"
@@ -205,205 +205,30 @@
          d="M 1,0 H 6 V 9.246094 H 1 Z m 0,0"
          id="path1076-1" />
     </clipPath>
+    <clipPath
+       id="clipPath3097-6">
+      <path
+         clip-rule="nonzero"
+         d="M 0,0 H 6.742188 V 8.964844 H 0 Z m 0,0"
+         id="path8467-3" />
+    </clipPath>
+    <clipPath
+       id="clipPath9627-0">
+      <path
+         clip-rule="nonzero"
+         d="M 0,0 H 7 V 8.964844 H 0 Z m 0,0"
+         id="path3343-1" />
+    </clipPath>
   </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-93-9"
-       cx="202.9382"
-       cy="-97.583809"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-7-3-4"
-       cx="202.87621"
-       cy="-91.528435"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-4-7"
-       cx="202.88307"
-       cy="-85.626549"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-8-31-3"
-       cx="202.8576"
-       cy="-79.724648"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-2-19-0"
-       cx="202.83662"
-       cy="-73.822746"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-9-1-0"
-       cx="196.7321"
-       cy="-97.409393"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-7-5-8-1"
-       cx="196.67009"
-       cy="-91.354027"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-7-7-5"
-       cx="196.67696"
-       cy="-85.452141"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-8-3-4-5"
-       cx="196.65147"
-       cy="-79.55024"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-2-0-3-3"
-       cx="196.63051"
-       cy="-73.648338"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-37-5-7"
-       cx="190.70464"
-       cy="-97.632637"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-7-8-4-9"
-       cx="190.64264"
-       cy="-91.577263"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-9-1-5"
-       cx="190.64949"
-       cy="-85.675377"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-8-2-4-7"
-       cx="190.62404"
-       cy="-79.773476"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-2-1-6-0"
-       cx="190.60306"
-       cy="-73.87159"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#bf3030;fill-opacity:1;stroke:#ffffff;stroke-width:0.18289;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-7-89-4-9-6-8-5"
-       cx="-79.699059"
-       cy="-190.57942"
-       r="1.6908847"
-       transform="scale(-1)" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-0-0-0"
-       cx="184.97484"
-       cy="-97.558212"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-7-81-7-7"
-       cx="184.91283"
-       cy="-91.502846"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#bf3030;fill-opacity:1;stroke:#ffffff;stroke-width:0.18289;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-7-89-4-9-2-2-1"
-       cx="-97.558212"
-       cy="-184.90923"
-       r="1.6908847"
-       transform="scale(-1)" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-29-4-0"
-       cx="184.91969"
-       cy="-85.600945"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-8-5-9-0"
-       cx="184.89423"
-       cy="-79.699059"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-2-5-6-0"
-       cx="184.87325"
-       cy="-73.797157"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-31-4-9"
-       cx="178.87296"
-       cy="-97.558212"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-7-1-1-1"
-       cx="178.81094"
-       cy="-91.502846"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-1-7-9"
-       cx="178.81783"
-       cy="-85.600945"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-3-2-11-5-3"
-       cx="178.77138"
-       cy="-73.797157"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#bf3030;fill-opacity:1;stroke:#ffffff;stroke-width:0.18289;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-7-89-4-9-5-1-3"
-       cx="-85.436546"
-       cy="-196.65129"
-       r="1.6908847"
-       transform="scale(-1)" />
-    <circle
        style="fill:#bf3030;fill-opacity:1;stroke:#ffffff;stroke-width:0.18289;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
        id="path32562-7-89-4-9-3-8-6"
-       cx="-85.593796"
-       cy="-178.78418"
+       cx="-141.03242"
+       cy="-58.465385"
        r="1.6908847"
        transform="scale(-1)" />
     <circle
@@ -411,20 +236,6 @@
        id="path32562-7-89-4-9-3-8-6-9"
        cx="-69.01342"
        cy="-22.672773"
-       r="1.6908847"
-       transform="scale(-1)" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-3-7-1-7-0"
-       cx="178.78418"
-       cy="-79.684746"
-       transform="rotate(90)"
-       r="0.65615898" />
-    <circle
-       style="fill:#bf3030;fill-opacity:1;stroke:#ffffff;stroke-width:0.18289;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       id="path32562-7-89-4-9-7-7"
-       cx="-97.583809"
-       cy="-202.9382"
        r="1.6908847"
        transform="scale(-1)" />
     <circle
@@ -671,7 +482,10 @@
        cx="-67.231087"
        cy="-58.62394"
        r="1.6908847"
-       transform="scale(-1)" />
+       transform="scale(-1)"
+       inkscape:export-filename="2x2-disc-phase-parallel-lines.png"
+       inkscape:export-xdpi="750"
+       inkscape:export-ydpi="750" />
     <circle
        style="fill:#bf3030;fill-opacity:0.501754;stroke:#1b0000;stroke-width:0.5;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
        id="path32562-7-89-4-9-3-8-6-9-7-6-6"

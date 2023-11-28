@@ -1,4 +1,7 @@
-module LPlots
+#module LPlots
+
+#REMOVED MODULE CALLS
+
 
 using DiffEqBase
 using LaTeXStrings
@@ -10,8 +13,11 @@ using PyPlot
 using StatsBase
 using PyCall
 
-using .Selforg
-using .CustomFunctions: extract_solution, Sol, intervallize_array
+
+include("selforg_core.jl")
+#include("custom_functions.jl")
+#using Selforg
+#using CustomFunctions: extract_solution, Sol, intervallize_array
 
 export plot_initial_conditions, plot_random_spins
 export plot_observable, plot_observables, plot_resume
@@ -315,7 +321,7 @@ end
 
 
 
-function plot_observable(o::System.Observable, sol::DiffEqBase.RODESolution)
+function plot_observable(o::Observable, sol::DiffEqBase.RODESolution)
     N::Int = sol.prob.p.N
     y = o.s_traj(sol)
 
@@ -329,7 +335,7 @@ function plot_observable(o::System.Observable, sol::DiffEqBase.RODESolution)
     return fig, ax
 end
 
-function plot_observable(o::System.Observable, sim::EnsembleSolution)
+function plot_observable(o::Observable, sim::EnsembleSolution)
     N::Int = sim[1].prob.p.N
     y, ystd = o.montec(sim)
 
@@ -344,7 +350,7 @@ function plot_observable(o::System.Observable, sim::EnsembleSolution)
     return fig, ax
 end
 
-function plot_observable(obs::Array{System.Observable}, solorsim)
+function plot_observable(obs::Array{Observable}, solorsim)
     for o in obs
         plot_observable(o,solorsim)
     end
@@ -355,7 +361,7 @@ function plot_observable(o,solorsim,filename::String)
     fig[:savefig](filename)
 end
 
-function plot_observables(obs::Array{System.Observable}, sol::DiffEqBase.RODESolution)
+function plot_observables(obs::Array{Observable}, sol::DiffEqBase.RODESolution)
     fig, ax = subplots(1,1)
     ax[:set_xlabel]("time")
     ax[:set_ylabel]("observables")
@@ -371,7 +377,7 @@ function plot_observables(obs::Array{System.Observable}, sol::DiffEqBase.RODESol
     return fig, ax
 end
 
-function plot_observables(obs::Array{System.Observable}, sim::EnsembleSolution)
+function plot_observables(obs::Array{Observable}, sim::EnsembleSolution)
     fig, ax = subplots(1,1)
     ax[:set_xlabel]("time")
     ax[:set_ylabel]("observables")
@@ -389,7 +395,7 @@ function plot_observables(obs::Array{System.Observable}, sim::EnsembleSolution)
     return fig, ax
 end
 
-function plot_observables(obs::Array{System.Observable},solorsim,filename::String)
+function plot_observables(obs::Array{Observable},solorsim,filename::String)
     fig, ax = plot_observables(obs,solorsim)
     fig[:savefig](filename)
 end
@@ -1145,4 +1151,4 @@ end
 
 
 
-end
+#end

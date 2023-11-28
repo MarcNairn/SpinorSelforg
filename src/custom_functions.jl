@@ -1,11 +1,13 @@
-module CustomFunctions
+#module CustomFunctions
+
+#REMOVED MODULE CALLS
 
 using DifferentialEquations: EnsembleSolution, RODESolution
 using JLD, JLD2
 
 export extract_solution, save_datal, load_datal, Sol,merge_sol, merge_sim
 export intervallize_array, load_datall
-#export yourpart
+export yourpart
 
 struct Sol
     u::Array{Float64,2}
@@ -126,6 +128,24 @@ function load_datall(path::String)
     merge_sim(sim...)
 end
 
+#new addition below
+#=
+function load_datalll(path::String)
+    sim = []
+    dir = dirname(path)
+    filename = basename(path)
+
+    files = filter(f -> startswith(f, filename), readdir(dir))
+
+    for file in files
+        filetemp = joinpath(dir, file)
+        println("loading $filetemp...")
+        push!(sim, load_datal(filetemp))
+    end
+
+    merge_sim(sim...)
+end
+=#
 function intervallize_array(arr::Array{Float64,1})
     y = zeros(length(arr)+1)
     y[2:end] .= arr
@@ -140,9 +160,7 @@ function yourpart(x::AbstractArray, n::Int)
     [x[i:min(i+n-1,length(x))] for i in 1:n:length(x)]
 end
 
-end
-
-
+#end
 
 
 
