@@ -30,5 +30,5 @@ sorted_sims = split_sim_from_par(sim_array)
 for batch in sorted_sims 
     g = Int(batch[1].p.S₁)
     trajs = length(batch)
-    save_datal("S=$(g), Ntraj=$(trajs)-sim_data.jld2", batch)
+    save_datal("../sorted_sims/S=$(g), Ntraj=$(trajs)-sim_data.jld2", batch)
 end
