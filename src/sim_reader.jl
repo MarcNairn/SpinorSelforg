@@ -1,8 +1,7 @@
 #THIS SCRIPT EXTRACTS ALL SIMULATIONS STORED AS .JLD FILES INTO A SIMULATION ARRAY FROM WHICH WE MAY EXTRACT THE OBSERVABLE sim_data
 using JLD2
 
-#include("src/custom_functions.jl")
-include("src/selforg_core.jl")
+include("selforg_core.jl")
 
 
 
@@ -21,5 +20,14 @@ function load_datalll(directory::AbstractString)
     merge_sim(sim...)
 end
 
-sim_array = load_datalll("cluster_files/") #of type Vector{Sol} (or Array{Sol,1})
+sim_array = load_datalll("../cluster_files/") #of type Vector{Sol} (or Array{Sol,1})
 
+sorted_sims = split_sim_from_par(sim_array)
+
+#RUN THROUGH ALL SIM DATA AND CATEGORISE IT IN BATCHES OF THE SAME PARAMETERS
+
+for batch in sorted_sims 
+    g = Int(batch[1].p.S₁)
+    trajs = length(batch)
+    save_datal("S=$(g), Ntraj=$(trajs)-sim_data.jld2", batch)
+end
