@@ -73,16 +73,18 @@ function plot_ai_ar_scatter(sim::Array{Sol,1}, selected_S::Int)
     #println(par_list)
 
     S = Float64[]
-    y1 = (Float64[], Float64[])
-    y2 = (Float64[], Float64[])
+    y1 = Float64[]#, Float64[])
+    y2 = Float64[]#, Float64[])
     
-    m_ai, s_ai, q_ai = expect(absai, selected_set)
-    push!(y1[1], m_ai[end])
-    push!(y1[2], s_ai[end])
+    for i in 1:length(selected_set)
+        m_ai[i] = expect(absai, selected_set[i])
+        push!(y1, m_ai[i])
+        #push!(y1[2], s_ai[end])
 
-    m_ar, s_ar, q_ar = expect(absar, selected_set)
-    push!(y2[1], m_ar[end])
-    push!(y2[2], s_ar[end])
+        m_ar[i]= expect(absar, selected_set[i])
+        push!(y2, m_ar[i])
+        #push!(y2[2], s_ar[end])
+    end
 
    # for x in categories
     #    current_S = abs(x[1].p.S₁)
