@@ -694,7 +694,7 @@ function plot_vs_SDe(sim::Array{Sol,1})
 
     ax[1,2][:set_ylabel](L"\Delta_e")
     ax[1,2][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
-    cs12 = ax[1,2][:contourf](S_list,De_list,y1,101)
+    #cs12 = ax[1,2][:contourf](S_list,De_list,y1,101)
     cbar12 = fig[:colorbar](cs12,ax=ax[1,2])
     cbar12[:set_label](L"\langle a^\dag a\rangle")
 
@@ -938,10 +938,10 @@ function plot_spinspositionhisto(sim::Array{Sol,1})
     fig, ax = subplots(1,2,figsize=[4.25*sf, 2.0*sf],sharex=true,sharey=true)
 
     ax[1][:set_ylabel](Sx.short_name,labelpad=-5.)
-    ax[1][:hist2d](x,u1[2N+1:3N],bins=nbins,normed=true)#,norm=matplotlib[:colors][:LogNorm]())
+    ax[1][:hist2d](x,u1[2N+1:3N],bins=nbins,density=true)   #,norm=matplotlib[:colors][:LogNorm]())
 
     ax[2][:set_ylabel](Sy.short_name,labelpad=4.)
-    cs = ax[2][:hist2d](x,u1[3N+1:4N], bins=nbins,normed=true)
+    cs = ax[2][:hist2d](x,u1[3N+1:4N], bins=nbins,density=true)
 
     for i in ax
         # i[:set_xlabel](L"atom position mod $2\pi$ (units of $\lambda_\mathrm{c}$)")
@@ -1035,13 +1035,13 @@ function plot_threshold(sim::Array{Sol,1})
 
     fig, ax = subplots(2,1,figsize=[2.8, 3.],sharex="col")
 
-    ax[1][:set_ylabel](L"cavity population $\langle a^\dag a\rangle$",labelpad=1)
+    ax[1][:set_ylabel](L"$\langle a^\dag a\rangle$",labelpad=1)
     ax[2][:set_xlabel](L"pump strength $\Omega$ (units of $\kappa$)")
-    ln1 = ax[1][:errorbar](S/unitS,y1[1],yerr=y1[2],color="C2",fmt="o",label="cavity population")
+    ln1 = ax[1][:errorbar](S/unitS,y1[1],yerr=y1[2],color="C2",fmt="o",markersize=2, label="cavity population")
 
-    ax[2][:set_ylabel](L"order parameter $\Phi$",labelpad=0)
+    ax[2][:set_ylabel](L"$\Phi$",labelpad=0)
     # ln2 = ax[2][:errorbar](S/unitS,y2[1],yerr=y2[2],color="C0",fmt="o", label="order parameter")
-    ln2 = ax[2][:errorbar](S1/unitS,y5[1],yerr=y5[2],color="C0",fmt="o", label="order parameter")
+    ln2 = ax[2][:errorbar](S1/unitS,y5[1],yerr=y5[2],color="C0",fmt="o", markersize=2,label="order parameter")
     # ln2 = ax[1][:errorbar](S/unitS,y4[1],yerr=y4[2],color="C1",fmt="o", label="order parameter")
     # ax2.tick_params("y", colors="C0")
 

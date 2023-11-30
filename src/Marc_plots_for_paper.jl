@@ -49,7 +49,7 @@ function plot_adaga_vs_S(sim::Array{Sol,1})
     ax[:set_ylabel](L"\langle a^\dag a\rangle")
     #ax[:errorbar](S, y[1], yerr=y[2], color="C0", fmt="o")
     ax[:plot](S, y[1], color = "C0")
-    ax[:fill_between](S, y[1].+y[2], y[1].-y[2], color="C0", alpha=0.5)
+    ax[:fill_between](S, y[1].+y[2], y[1].-y[2], color="C0", alpha=0.2)
     ax[:set_xlabel](L"{S_1}={S_2}")
 
     fig[:tight_layout](h_pad=0., w_pad=-0.)
