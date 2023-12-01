@@ -30,6 +30,7 @@ function sort_save_datal(directory::AbstractString, set_traj_number::Int) #take 
     for batch in sorted_sims 
         g = Int(batch[1].p.S₁) #to sort by pumping strength
         trajs = length(batch) #make sure all have same length otherwise discard current iteration
+        temp = Int(batch[1].p.temp)
 
         #Check for correct number of trajectories:
         if trajs == set_traj_number
@@ -40,18 +41,18 @@ function sort_save_datal(directory::AbstractString, set_traj_number::Int) #take 
             isdir(target_directory) || mkdir(target_directory)
             
              # Construct the file path
-             file_path = joinpath(target_directory, "S=$(g), Ntraj=$(trajs)-sim_data.jld2")
+             file_path = joinpath(target_directory, "S=$(g), temp=$(temp), Ntraj=$(trajs)-sim_data.jld2")
             
              # Check if the file already exists
             if !isfile(file_path)
                 # save data
                 save_datal(file_path, batch)
-                println("Creating file for g=$(g) and $(trajs) trajs in $target_directory")
+                println("Creating file for g=$(g), temp=$(temp) and $(trajs) trajs in $target_directory")
             else
-                println("File for g=$(g) and $(trajs) trajs already exists. Skipping...")
+                println("File for g=$(g), temp=$(temp) and $(trajs) trajs already exists. Skipping...")
             end
         else
-            println("Skipping batch for g=$(g) and $(trajs) trajs as it does not have the required length.")
+            println("Skipping batch for g=$(g), temp=$(temp) and $(trajs) trajs as it does not have the required length.")
         end
     end
 end
