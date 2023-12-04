@@ -26,7 +26,7 @@ for temp in $TEMP_ARGS; do
 
         # Run sbatch to submit a new job with the current arguments
         for S in "${S_ARGS[@]}"; do
-            sbatch -a 0-49 run_justus_static.sh "$S" "$temp" 
+            sbatch -a 0-49 run/JUSTUS_draft_run/run_justus_static.sh "$S" "$temp" 
             echo "New job submitted with arguments: S=$S, temp=$temp."
         done
     else
