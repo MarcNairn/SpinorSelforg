@@ -1,11 +1,9 @@
 #!/bin/bash
 
 # Define the list of arguments
-S_ARGS=(28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47)
+S_ARGS="28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47"
 TEMP_ARGS="1 5 10 12 14 16 18 20"
 
-# Run squeue and capture the output
-#squeue_output=$(squeue)
 
 # Flag to check if there are pending jobs
 pending_jobs=false
@@ -25,7 +23,7 @@ for temp in $TEMP_ARGS; do
         echo "No pending jobs. Submitting a new job with arguments: temp=$temp..."
 
         # Run sbatch to submit a new job with the current arguments
-        for S in "${S_ARGS[@]}"; do
+        for S in $S_ARGS; do
             sbatch -a 0-49 run/JUSTUS_draft_run/run_justus_static.sh "$S" "$temp" 
             echo "New job submitted with arguments: S=$S, temp=$temp."
         done

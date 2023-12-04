@@ -1,7 +1,7 @@
 using ClusterManagers
 using Random
 
-np = parse(Int,ARGS[1])
+np = parse(Int, ARGS[1])
 Sre = parse(Int, ARGS[2])
 temp = parse(Int, ARGS[3])
 
