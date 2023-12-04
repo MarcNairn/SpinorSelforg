@@ -2,7 +2,7 @@
 
 # Define the list of arguments
 S_ARGS="28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47"
-TEMP_ARGS="1 5 10 12 14 16 18 20"
+TEMP_ARGS="1 5" #10 12 14 16 18 20"
 
 
 # Flag to check if there are pending jobs
@@ -37,12 +37,12 @@ done
 # Wait for all jobs to finish
 echo "Waiting for all jobs to finish..."
 while [ $(echo "$(squeue)" | wc -l) -gt 1 ]; do
-    sleep 30m  # Adjust the sleep interval as needed
+    sleep 5m  # Adjust the sleep interval as needed
 done
 
 echo "Reached end!"
 
 # Run cleanup code
-#echo "Running cleanup code..."
-#julia clean_and_store.jl "$(pwd)" 1000
-#echo "Cleanup code completed."
+echo "Running cleanup code..."
+julia clean_and_store.jl "$(pwd)" 1000
+echo "Cleanup code completed."
