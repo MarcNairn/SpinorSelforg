@@ -3,6 +3,7 @@ using Random
 
 np = parse(Int,ARGS[1])
 Sre = parse(Int, ARGS[2])
+temp = parse(Int, ARGS[3])
 
 include("../load.jl")
 include("../parameters_static.jl")
