@@ -42,7 +42,9 @@ while [ $(echo "$(squeue)" | wc -l) -gt 1 ]; do
     sleep 30m  # Adjust the sleep interval as needed
 done
 
+echo "Reached end!"
+
 # Run cleanup code
-echo "Running cleanup code..."
-julia clean_and_store.jl "$(pwd)" 1000
-echo "Cleanup code completed."
+#echo "Running cleanup code..."
+#julia clean_and_store.jl "$(pwd)" 1000
+#echo "Cleanup code completed."
