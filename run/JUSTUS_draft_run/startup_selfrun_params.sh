@@ -2,8 +2,12 @@
 
 # Define the list of arguments
 S_ARGS="28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47"
-TEMP_ARGS="5 10 12 14 16 18 20"
+TEMP_ARGS="12 14 16 18" #5 10
 RUN_INDEX="0 1 2 3 4 5 6 7 8 9" 
+
+
+# Set initial time
+time_allocation="00:20:00"
 
 # Flag to check if there are pending jobs
 pending_jobs=false
@@ -24,7 +28,20 @@ for temp in $TEMP_ARGS; do
 
             # Run sbatch to submit a new job with the current arguments
             for S in $S_ARGS; do
-                sbatch -a 0-49 run/JUSTUS_draft_run/run_justus_static.sh $S $temp $run
+                # Check the value of S and adjust --time accordingly
+                if [ "$S" -le 34 ]; then
+                    time_allocation="00:30:00"
+                elif [ "$S" -le 39 ]; then
+                    # Steeper increase from 30 minutes to 2.5 hours
+                    additional_minutes=$((($S - 34) * 30))
+                    time_allocation="00:$(($additional_minutes + 20)):00"
+                elif [ "$S" -le 44 ]; then
+                    time_allocation="00:240:00"
+                else
+                    # Finish with a fixed 6 hours for S>44
+                    time_allocation="00:360:00"
+                fi
+                sbatch -a 0-49 --time $time_allocation run/JUSTUS_draft_run/run_justus_static.sh $S $temp $run
                 echo "New job submitted with arguments: S=$S, temp=$temp."
             done
         else
