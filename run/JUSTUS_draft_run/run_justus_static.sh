@@ -18,7 +18,7 @@
 # File name for error output
 #SBATCH --error=static_pump_Nmc-%a_%A.err
 
-srun julia run/JUSTUS_draft_run/run_parallel_justus_static.jl ${SLURM_ARRAY_TASK_ID} $1 $2
+srun julia run/JUSTUS_draft_run/run_parallel_justus_static.jl $((SLURM_ARRAY_TASK_ID + 50 * $3)) $1 $2
 
 #ARGS[2] represents the pumping strength
 

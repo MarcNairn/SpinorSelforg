@@ -2,17 +2,15 @@
 
 # Define the list of arguments
 S_ARGS="28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47"
-TEMP_ARGS="5" #10 12 14 16 18 20"
-RUN_INDEX="0 1 2 3 4 5 6 7 8 9" #
+TEMP_ARGS="5 10 12 14 16 18 20"
+RUN_INDEX="0 1 2 3 4 5 6 7 8 9" 
 
 # Flag to check if there are pending jobs
 pending_jobs=false
 
-for run in $RUN_INDEX; do
-
+for temp in $TEMP_ARGS; do
 # Iterate over the temperature arguments
-    for temp in $TEMP_ARGS; do
-
+    for run in $RUN_INDEX; do
         # Count the number of lines in the output (excluding the header)
         num_jobs=$(echo "$(squeue)" | wc -l)
         ((num_jobs--))
@@ -33,15 +31,14 @@ for run in $RUN_INDEX; do
             echo "There are pending jobs. No action taken for arguments: temp=$temp."
             pending_jobs=true
         fi
+                # Wait for all jobs to finish
+        echo "Waiting for all jobs to finish..."
+        while [ $(echo "$(squeue)" | wc -l) -gt 1 ]; do
+            sleep 1m  # Adjust the sleep interval as needed
+        done
     done
 done
 
-
-# Wait for all jobs to finish
-echo "Waiting for all jobs to finish..."
-while [ $(echo "$(squeue)" | wc -l) -gt 1 ]; do
-    sleep 1m  # Adjust the sleep interval as needed
-done
 
 echo "Reached end!"
 
