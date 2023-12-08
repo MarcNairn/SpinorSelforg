@@ -1037,11 +1037,11 @@ function plot_threshold(sim::Array{Sol,1})
 
     ax[1][:set_ylabel](L"$\langle a^\dag a\rangle$",labelpad=1)
     ax[2][:set_xlabel](L"pump strength $\Omega$ (units of $\kappa$)")
-    ln1 = ax[1][:errorbar](S/unitS,y1[1],yerr=y1[2],color="C2",fmt="o",markersize=2, label="cavity population")
+    ln1 = ax[1][:errorbar](S/unitS,y1[1],yerr=y1[2],color="C2",fmt="o",markersize=3, label="cavity population")
 
     ax[2][:set_ylabel](L"$\Phi$",labelpad=0)
     # ln2 = ax[2][:errorbar](S/unitS,y2[1],yerr=y2[2],color="C0",fmt="o", label="order parameter")
-    ln2 = ax[2][:errorbar](S1/unitS,y5[1],yerr=y5[2],color="C0",fmt="o", markersize=2,label="order parameter")
+    ln2 = ax[2][:errorbar](S1/unitS,y5[1],yerr=y5[2],color="C0",fmt="o", markersize=3,label="order parameter")
     # ln2 = ax[1][:errorbar](S/unitS,y4[1],yerr=y4[2],color="C1",fmt="o", label="order parameter")
     # ax2.tick_params("y", colors="C0")
 
