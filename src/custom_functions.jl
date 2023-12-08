@@ -178,6 +178,20 @@ function load_datalll(directory::AbstractString)
     merge_sim(sim...)
 end
 
+function load_datalll(directory::AbstractString, temp_value::Int)
+    sim = []
+
+    for file in readdir(directory)
+        if endswith(file, ".jld2") && contains(file, "temp=$temp_value")
+            filetemp = joinpath(directory, file)
+            println("loading $filetemp...")
+            push!(sim, load_datal(filetemp))
+        end
+    end
+
+    merge_sim(sim...)
+end
+
 #RUN THROUGH ALL SIM DATA, CATEGORISE IT IN BATCHES OF THE SAME PARAMETERS AND SAVE IT IN MANY TRAJECTORY FILES
 function sort_save_datal(directory::AbstractString, set_traj_number::Int) #take array of array of solutions, i.e. array of many trajectory simulations per entry
     #set_traj_number to some integer we are aware should match with the desired number of trajectories 
