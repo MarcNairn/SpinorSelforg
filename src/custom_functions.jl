@@ -180,15 +180,15 @@ end
 
 function load_datalll(directory::AbstractString, temp_value::Int)
     sim = []
-
+    println("loading data...")
     for file in readdir(directory)
         if endswith(file, ".jld2") && contains(file, "temp=$temp_value")
             filetemp = joinpath(directory, file)
-            println("loading $filetemp...")
+            #println("loading $filetemp...")
             push!(sim, load_datal(filetemp))
         end
     end
-
+    println("all files loaded!")
     merge_sim(sim...)
 end
 

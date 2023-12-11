@@ -595,8 +595,8 @@ function plot_vs_S(sim::Array{Sol,1})
     ax[2,2][:set_yticks](pi/8*collect(0:4))
     ax[2,2][:set_yticklabels]([L"0",L"\pi/8",L"\pi/4",L"3\pi/8",L"\pi/2"])
 
-    ax[end, 1][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
-    ax[end, 2][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    ax[end, 1][:set_xlabel](L"|S_1|=|S_2|")
+    ax[end, 2][:set_xlabel](L"|S_1|=|S_2|")
 
     fig[:tight_layout](h_pad=0., w_pad=-0.)
     return fig, ax
@@ -637,7 +637,7 @@ function plot_Ekin_vs_S(sim::Array{Sol,1})
     ax[:set_ylabel](L"kinetic energy (units of $\hbar\omega_\mathrm{r}$)")
     ax[:errorbar](S,y1[1],yerr=y1[2],color="C0",fmt="o")
 
-    ax[:set_xlabel](L"pump strength $\abs{S_1}=\abs{S_2}$")
+    ax[:set_xlabel](L"pump strength $|S_1|=|S_2|$")
 
     fig[:tight_layout]()
     return fig, ax
@@ -687,37 +687,37 @@ function plot_vs_SDe(sim::Array{Sol,1})
     fig, ax = subplots(2,2,figsize=[6.2, 4.])
 
     ax[1,1][:set_ylabel](L"\Delta_e")
-    ax[1,1][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    ax[1,1][:set_xlabel](L"|S_1|=|S_2|")
     cs11 = ax[1,1][:pcolormesh](S_int,De_int,y1)
     cbar11 = fig[:colorbar](cs11,ax=ax[1,1])
     cbar11[:set_label](L"\langle a^\dag a\rangle")
 
     ax[1,2][:set_ylabel](L"\Delta_e")
-    ax[1,2][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
-    #cs12 = ax[1,2][:contourf](S_list,De_list,y1,101)
+    ax[1,2][:set_xlabel](L"|S_1|=|S_2|")
+    cs12 = ax[1,2][:contourf](S_list,De_list,y1,101)
     cbar12 = fig[:colorbar](cs12,ax=ax[1,2])
     cbar12[:set_label](L"\langle a^\dag a\rangle")
 
     ax[2,1][:set_ylabel](L"\Delta_e")
-    ax[2,1][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    ax[2,1][:set_xlabel](L"|S_1|=|S_2|")
     cs21 = ax[2,1][:pcolormesh](S_int,De_int,y1,norm=matplotlib[:colors][:LogNorm]())
     cbar21 = fig[:colorbar](cs21,ax=ax[2,1])
     cbar21[:set_label](L"\langle a^\dag a\rangle")
 
     ax[2,2][:set_ylabel](L"\Delta_e")
-    ax[2,2][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    ax[2,2][:set_xlabel](L"|S_1|=|S_2|")
     cs22 = ax[2,2][:contourf](S_list,De_list,y1,norm=matplotlib[:colors][:LogNorm]())
     cbar22 = fig[:colorbar](cs22,ax=ax[2,2])
     cbar22[:set_label](L"\langle a^\dag a\rangle")
 
     # ax[3,1][:set_ylabel](L"\Delta_e")
-    # ax[3,1][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    # ax[3,1][:set_xlabel](L"|S_1|=|S_2|")
     # cs31 = ax[3,1][:tricontourf](S,De,y2[1],101,norm=matplotlib[:colors][:LogNorm]())
     # cbar31 = fig[:colorbar](cs31,ax=ax[3,1])
     # cbar31[:set_label](L"\langle a^\dag a\rangle")
 
     # ax[3,2][:set_ylabel](L"\Delta_e")
-    # ax[3,2][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    # ax[3,2][:set_xlabel](L"|S_1|=|S_2|")
     # cs32 = ax[3,2][:tricontourf](S,De,y2[1],101)
     # cbar32 = fig[:colorbar](cs32,ax=ax[3,2])
     # cbar32[:set_label](L"\langle a^\dag a\rangle")
@@ -728,7 +728,7 @@ function plot_vs_SDe(sim::Array{Sol,1})
     # ax[3,1][:set_yticks](pi/8*collect(0:4))
     # ax[3,1][:set_yticklabels]([L"0",L"\pi/8",L"\pi/4",L"3\pi/8",L"\pi/2"])
 
-    ax[end, 1][:set_xlabel](L"\abs{S_1}=\abs{S_2}")
+    ax[end, 1][:set_xlabel](L"|S_1|=|S_2|")
 
     fig[:tight_layout](h_pad=0., w_pad=-0.)
     return fig, ax

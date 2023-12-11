@@ -9,7 +9,7 @@ include("sim_reader.jl")
 
 
 
-function plot_adaga_vs_S(sim::Array{Sol,1})
+function plot_adaga_vs_S(sim::Array{Sol, 1})
     println("found $(size(sim)[end]) trajectories")
     println("-----------------------------------------")
 
@@ -32,10 +32,13 @@ function plot_adaga_vs_S(sim::Array{Sol,1})
     fig, ax = subplots(figsize=[6.2, 4.])
 
     ax[:set_ylabel](L"\langle a^\dag a\rangle")
-    #ax[:errorbar](S, y[1], yerr=y[2], color="C0", fmt="o")
-    ax[:plot](S, y[1], color = "C0")
-    ax[:fill_between](S, y[1].+y[2], y[1].-y[2], color="C0", alpha=0.2)
-    ax[:set_xlabel](L"{S_1}={S_2}")
+    
+    # Plot the line
+    ax[:plot](S, y[1], color="C0")
+
+    ax[:fill_between](S, y[1] + y[2], y[1] - y[2], color="C0", alpha=0.2)
+
+    ax[:set_xlabel](L"{|S_1|}={|S_2|}")
 
     fig[:tight_layout](h_pad=0., w_pad=-0.)
     return fig, ax
@@ -47,30 +50,59 @@ function plot_adaga_vs_S(solorsim,filename::String)
 end
 
 
-function plot_ai_ar_scatter(sim::Array{Sol,1},bins=50)
 
-    fig, ax = subplots()
-    sorted_sim = split_sim_from_par(sim) 
-    
-    N::Int = sorted_sim[1][1].p.N #extract atom number of simulations
+function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
+    sorted_sim = split_sim_from_par(sim)
 
-    # #end to extract SR phase 
-    # #1 to extract normal phase
-    for traj in 1:length(sorted_sim[end])
-        a_values = sorted_sim[end][traj].u[5N+1, end]
-        b_values = sorted_sim[end][traj].u[5N+2, end]
-        c_values = sorted_sim[1][traj].u[5N+1, end]
-        d_values = sorted_sim[1][traj].u[5N+2, end]
-        scatter(a_values, b_values,color= "C0", alpha=0.5, s=25) #a_values along x, b_values along y
-        scatter(c_values, d_values,color = "C2", alpha=0.5, s=25)
-    end
+    N::Int = sorted_sim[1][1].p.N  # Extract atom number of simulations
 
-    xlabel(L"a_r")
-    ylabel(L"a_i")
+    # Extracting values for scatter plot
+    scatter_values_sr = hcat(
+        [sorted_sim[end][traj].u[5N + 1, end] for traj in 1:length(sorted_sim[end])],
+        [sorted_sim[end][traj].u[5N + 2, end] for traj in 1:length(sorted_sim[end])]
+    )
 
-    grid(true)
-    xlim(-15, 15)
-    ylim(-15, 15)
+    scatter_values_normal = hcat(
+        [sorted_sim[1][traj].u[5N + 1, end] for traj in 1:length(sorted_sim[end])],
+        [sorted_sim[1][traj].u[5N + 2, end] for traj in 1:length(sorted_sim[end])]
+    )
+
+    mean_x_normal = mean(scatter_values_normal[:, 1])
+    mean_y_normal = mean(scatter_values_normal[:, 2])
+
+    mean_x_sr = mean(scatter_values_sr[:, 1])
+    mean_y_sr = mean(scatter_values_sr[:, 2])
+
+    Plots.plot(scatter_values_sr[:, 1], scatter_values_sr[:, 2], seriestype=:scatter, color=:blue, alpha=0.5, label="SR", markersize=5)
+    Plots.plot!(scatter_values_normal[:, 1], scatter_values_normal[:, 2], seriestype=:scatter, color=:red, alpha=0.5, label="Normal", markersize=5)
+
+    xlabel!(L"a_r", fontsize=15)
+    ylabel!(L"a_i", fontsize=15)
+
+    Plots.plot!(legend=true)
+    Plots.plot!(grid=true)
+
+    xlims!((mean_x_sr - 2*std(scatter_values_sr[:, 1]), mean_x_sr + 2*std(scatter_values_sr[:, 1])))
+    ylims!((mean_y_sr - 2*std(scatter_values_sr[:, 2]), mean_y_sr + 2*std(scatter_values_sr[:, 2])))
+
+    #NORMAL BLOB
+    center_x_normal = mean_x_normal
+    center_y_normal = mean_y_normal
+    radius_normal = (max.(scatter_values_sr[:, 1]).-center_x_normal).^2 + (max.(scatter_values_sr[:, 1]).-center_y_normal).^2 
+
+    scatter!([center_x_normal], [center_y_normal], marker=:circle, markersize=2 * radius_normal, color=:blue, alpha=0.2)
+
+    # SR BLOB
+
+    center_x_sr = mean_x_sr
+    center_y_sr = mean_y_sr
+    radius_sr = (max.(scatter_values_sr[:, 1]).-center_x_sr).^2 + (max.(scatter_values_sr[:, 1]).-center_y_sr).^2 
+
+    scatter!([center_x_sr], [center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
+    scatter!([-1*center_x_sr], [-1*center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
+
+    # xlims!(-15, 15)
+    # ylims!(-15, 15)
 
     # Create 2D histogram
     # plt[:xlim](-25, 25)
@@ -85,7 +117,6 @@ function plot_ai_ar_scatter(sim::Array{Sol,1},bins=50)
     # bins=bins, cmap="Reds", alpha=0.5)
 
     # colorbar()
-    legend(["SR", "Normal"])
 end
 
 
@@ -283,7 +314,6 @@ function plot_interp_threshold(sim::Array{Sol, 1})
     closest_to_zero_x = inset_x_range[closest_to_zero_index]
     closest_to_zero_y = inset_y_values[closest_to_zero_index]
     scatter!([closest_to_zero_x], [closest_to_zero_y], markersize=7, marker=:circle, markercolor=:white, markerstrokecolor=:black, markerstrokealpha=0.6, subplot=2, label="Crossover")
-
 end
 
 function plot_interp_threshold(solorsim,filename::String)

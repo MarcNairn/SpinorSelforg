@@ -30,10 +30,9 @@ for temp in $TEMP_ARGS; do
             for S in $S_ARGS; do
                 # Check the value of S and adjust --time accordingly
                 if [ "$S" -le 34 ]; then
-                    time_allocation="00:30:00"
+                    time_allocation="02:00:00"
                 elif [ "$S" -le 39 ]; then
                     # Steeper increase from 30 minutes to 2.5 hours
-                    additional_minutes=$((($S - 34) * 30))
                     time_allocation="00:$(($additional_minutes + 20)):00"
                 elif [ "$S" -le 44 ]; then
                     time_allocation="00:240:00"

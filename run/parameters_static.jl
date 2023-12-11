@@ -10,7 +10,7 @@ S₁ = g
 S₂ = g
 Δₑ = 10
 Δc = -κ
-num_monte = 20 #increased momentarily to optimise full parameter array in slurm queue 
+num_monte = 2 #increased momentarily to optimise full parameter array in slurm queue 
 #for num_monte>>1 need ~6-12hrs on cluster
 #recall per trajectory need around 20 minutes
 
