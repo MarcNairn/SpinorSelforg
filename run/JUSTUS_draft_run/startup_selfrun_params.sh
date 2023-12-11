@@ -42,7 +42,7 @@ for temp in $TEMP_ARGS; do
                     time_allocation="00:360:00"
                 fi
                 sbatch -a 0-49 --time $time_allocation run/JUSTUS_draft_run/run_justus_static.sh $S $temp $run
-                echo "New job submitted with arguments: S=$S, temp=$temp."
+                echo "New job submitted, run=$run, with arguments: S=$S, temp=$temp."
             done
         else
             echo "There are pending jobs. No action taken for arguments: temp=$temp."
