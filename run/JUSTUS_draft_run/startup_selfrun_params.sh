@@ -7,7 +7,7 @@ RUN_INDEX="0 1 2 3 4 5 6 7 8 9"
 
 
 # Set initial time
-time_allocation="00:20:00"
+time_allocation="00:30:00"
 
 # Flag to check if there are pending jobs
 pending_jobs=false
