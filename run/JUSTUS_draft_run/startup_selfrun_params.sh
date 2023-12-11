@@ -23,7 +23,7 @@ for temp in $TEMP_ARGS; do
             # Print the total number of pending jobs
             echo "Total number of pending jobs: $num_jobs"
             # Check if there are no pending jobs
-            if [ "$num_jobs" -le 10 ]; then
+            if [ "$num_jobs" -lt 20 ]; then
                 echo "Room for new jobs. Submitting a new job, run=$run, with arguments: temp=$temp..."
                 # Check the value of S and adjust --time accordingly
                 if [ "$S" -le 34 ]; then
@@ -47,7 +47,7 @@ for temp in $TEMP_ARGS; do
         done
         # Wait for all jobs to finish within the S loop
         echo "Waiting on queue to free up..."
-        while [ $(echo "$(squeue)" | wc -l) -ge 10 ]; do
+        while [ $(echo "$(squeue)" | wc -l) -ge 20 ]; do
             sleep 1m  # Adjust the sleep interval as needed
         done
     done
