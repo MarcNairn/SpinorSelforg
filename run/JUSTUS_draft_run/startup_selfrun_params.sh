@@ -14,7 +14,7 @@ pending_jobs=false
 
 for temp in $TEMP_ARGS; do
     # Iterate over the temperature arguments
-    for run in $RUN_ARGS; do
+    for run in $RUN_INDEX; do
         # Iterate over pump strengths
         for S in $S_ARGS; do
             # Count the number of lines in the output (excluding the header)
