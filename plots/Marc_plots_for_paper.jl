@@ -152,11 +152,11 @@ function plot_ordering_vs_S(sims::Array{Sol,1}...)
         # matplotlib[:rc]("axes", labelpad=1)
 
         if par_list[1].temp == 0.0
-            label = "\$\temp=0\$"
+            label = "\$temp=0\$"
         elseif par_list[1].temp < par_list[1].κ
-            label = "\$\temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
+            label = "\$temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
         else
-            label = "\$\temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
+            label = "\$temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
         end
 
         ax[1].plot(S,y1,ls=linelist[i],color=colorlist[i],label=latexstring(label))
