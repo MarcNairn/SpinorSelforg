@@ -3,7 +3,8 @@
 
 using Interpolations
 using JLD2
-using Plots
+using PyPlot
+using PyCall
 
 include("../src/sim_reader.jl")
 
@@ -51,116 +52,142 @@ end
 
 
 
-function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
-    sorted_sim = split_sim_from_par(sim)
+# function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
+#     sorted_sim = split_sim_from_par(sim)
 
-    N::Int = sorted_sim[1][1].p.N  # Extract atom number of simulations
+#     N::Int = sorted_sim[1][1].p.N  # Extract atom number of simulations
 
-    # Extracting values for scatter plot
-    scatter_values_sr = hcat(
-        [sorted_sim[end][traj].u[5N + 1, end] for traj in 1:length(sorted_sim[end])],
-        [sorted_sim[end][traj].u[5N + 2, end] for traj in 1:length(sorted_sim[end])]
-    )
+#     # Extracting values for scatter plot
+#     scatter_values_sr = hcat(
+#         [sorted_sim[end][traj].u[5N + 1, end] for traj in 1:length(sorted_sim[end])],
+#         [sorted_sim[end][traj].u[5N + 2, end] for traj in 1:length(sorted_sim[end])]
+#     )
 
-    scatter_values_normal = hcat(
-        [sorted_sim[1][traj].u[5N + 1, end] for traj in 1:length(sorted_sim[end])],
-        [sorted_sim[1][traj].u[5N + 2, end] for traj in 1:length(sorted_sim[end])]
-    )
+#     scatter_values_normal = hcat(
+#         [sorted_sim[1][traj].u[5N + 1, end] for traj in 1:length(sorted_sim[end])],
+#         [sorted_sim[1][traj].u[5N + 2, end] for traj in 1:length(sorted_sim[end])]
+#     )
 
-    mean_x_normal = mean(scatter_values_normal[:, 1])
-    mean_y_normal = mean(scatter_values_normal[:, 2])
+#     mean_x_normal = mean(scatter_values_normal[:, 1])
+#     mean_y_normal = mean(scatter_values_normal[:, 2])
 
-    mean_x_sr = mean(scatter_values_sr[:, 1])
-    mean_y_sr = mean(scatter_values_sr[:, 2])
+#     mean_x_sr = mean(scatter_values_sr[:, 1])
+#     mean_y_sr = mean(scatter_values_sr[:, 2])
 
-    Plots.plot(scatter_values_sr[:, 1], scatter_values_sr[:, 2], seriestype=:scatter, color=:blue, alpha=0.5, label="SR", markersize=5)
-    Plots.plot!(scatter_values_normal[:, 1], scatter_values_normal[:, 2], seriestype=:scatter, color=:red, alpha=0.5, label="Normal", markersize=5)
+#     Plots.plot(scatter_values_sr[:, 1], scatter_values_sr[:, 2], seriestype=:scatter, color=:blue, alpha=0.5, label="SR", markersize=5)
+#     Plots.plot!(scatter_values_normal[:, 1], scatter_values_normal[:, 2], seriestype=:scatter, color=:red, alpha=0.5, label="Normal", markersize=5)
 
-    xlabel!(L"a_r", fontsize=15)
-    ylabel!(L"a_i", fontsize=15)
+#     xlabel!(L"a_r", fontsize=15)
+#     ylabel!(L"a_i", fontsize=15)
 
-    plot!(legend=true)
-    plot!(grid=true)
+#     plot!(legend=true)
+#     plot!(grid=true)
 
-    xlims!((mean_x_sr - 2*std(scatter_values_sr[:, 1]), mean_x_sr + 2*std(scatter_values_sr[:, 1])))
-    ylims!((mean_y_sr - 2*std(scatter_values_sr[:, 2]), mean_y_sr + 2*std(scatter_values_sr[:, 2])))
+#     xlims!((mean_x_sr - 2*std(scatter_values_sr[:, 1]), mean_x_sr + 2*std(scatter_values_sr[:, 1])))
+#     ylims!((mean_y_sr - 2*std(scatter_values_sr[:, 2]), mean_y_sr + 2*std(scatter_values_sr[:, 2])))
 
-    # #NORMAL BLOB
-    # center_x_normal = mean_x_normal
-    # center_y_normal = mean_y_normal
-    # radius_normal = (max.(scatter_values_sr[:, 1]).-center_x_normal).^2 + (max.(scatter_values_sr[:, 1]).-center_y_normal).^2 
+# end
 
-    # scatter!([center_x_normal], [center_y_normal], marker=:circle, markersize=2 * radius_normal, color=:blue, alpha=0.2)
 
-    # # SR BLOBS
+function plot_ordering_vs_S(sims::Array{Sol,1}...)
 
-    # center_x_sr = mean_x_sr
-    # center_y_sr = mean_y_sr
-    # radius_sr = (max.(scatter_values_sr[:, 1]).-center_x_sr).^2 + (max.(scatter_values_sr[:, 1]).-center_y_sr).^2 
+    colorlist = ["C1","C2","C3","C4","C5","C6"]
+    linelist = ["-","--",":","-.","-."]
 
-    # scatter!([center_x_sr], [center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
-    # scatter!([-1*center_x_sr], [-1*center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
+    # fig, ax = subplots(3,1,figsize=[3.4, 5.3],sharex=true)
+    fig, ax = subplots(4,1,figsize=[3.4, 7.3],sharex=true)
 
-    # xlims!(-15, 15)
-    # ylims!(-15, 15)
+    ax[1].set_ylabel(L"cavity population $\langle a^\dag a \rangle$")
+    ax[2].set_ylabel(L"order parameter $\vert\Phi\vert$")
+    ax[3].set_ylabel(L"bunching parameter $\mathcal{B}$")
+    ax[4].set_ylabel(L"final kinetic energy $E_\mathrm{kin}/\hbar\kappa$")
+    ax[end].set_xlabel(L"pump strength $\sqrt{N}S/\kappa$")
 
-    # Create 2D histogram
-    # plt[:xlim](-25, 25)
-    # plt[:ylim](-25, 25)
-    # plt[:xlabel](L"$a_r$")
-    # plt[:ylabel](L"$a_i$")
-    # plt[:hist2d]([sorted_sim[end][traj].u[5N+1, end] for traj in 1:length(sorted_sim[end])],
-    #        [sorted_sim[end][traj].u[5N+2, end] for traj in 1:length(sorted_sim[end])],
-    #        bins=bins, cmap="Blues", alpha=0.5)
-    # plt[:hist2d]([sorted_sim[1][traj].u[5N+1, end] for traj in 1:length(sorted_sim[end])],
-    # [sorted_sim[1][traj].u[5N+2, end] for traj in 1:length(sorted_sim[end])],
-    # bins=bins, cmap="Reds", alpha=0.5)
+    for (i,sim) in enumerate(sims)
+        println("found $(size(sim)[end]) trajectories")
+        println("-----------------------------------------")
 
-    # colorbar()
+        categories, par_list = split_sim_from_par(sim,true)
+
+        S = Float64[]
+        y1 = Float64[]
+        y2 = Array{Float64,1}[]
+        y3 = Float64[]
+        y4 = Array{Float64,1}[]
+        y5 = Float64[]
+        y6 = Array{Float64,1}[]
+        y7 = Float64[]
+        y8 = Array{Float64,1}[]
+        for x in categories
+            push!(S,abs(x[1].p.S₁)*sqrt(x[1].p.N)/x[1].p.κ)
+
+            m,s,q = expect(adaga,x)
+            push!(y1,m[end])
+            push!(y2,q[end])
+
+            m,s,q = expect(absX,x)
+            push!(y3,m[end])
+            push!(y4,q[end])
+
+            m,s,q = expect(Cos2,x)
+            push!(y5,m[end])
+            push!(y6,q[end])
+
+            m,s,q = expect(Ekin,x)./x[1].p.κ
+            push!(y7,m[end])
+            push!(y8,q[end])
+        end
+
+        A = sortslices(hcat(S,y1,vcat(y2'...),y3,vcat(y4'...),y5,vcat(y6'...),y7,vcat(y8'...)),dims=1)
+        S = A[:,1]
+        y1 = A[:,2]
+        y2 = A[:,3:4]
+        y3 = A[:,5]
+        y4 = A[:,6:7]
+        y5 = A[:,8]
+        y6 = A[:,9:10]
+        y7 = A[:,11]
+        y8 = A[:,12:13]
+
+        # matplotlib[:rc]("axes", labelpad=1)
+
+        if par_list[1].temp == 0.0
+            label = "\$\temp=0\$"
+        elseif par_list[1].temp < par_list[1].κ
+            label = "\$\temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
+        else
+            label = "\$\temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
+        end
+
+        ax[1].plot(S,y1,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[1].fill_between(S,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+
+        ax[2].plot(S,y3,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[2].fill_between(S,y4[:,1],y4[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+
+        ax[3].plot(S,y5,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[3].fill_between(S,y6[:,1],y6[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+
+        ax[4].plot(S,y7,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[4].fill_between(S,y8[:,1],y8[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+    end
+
+    ax[1].legend(handlelength=2.5,loc="upper left",bbox_to_anchor=(0.2, 1.08),framealpha=1)
+    fig.tight_layout(h_pad=0.)
+
+    for i in 1:4
+        letter = Char(Int('a')+i-1)
+        ax[i].text(0.05,0.87,"("*letter*")",transform=ax[i].transAxes)
+    end
+
+
+    return fig, ax
 end
 
-
-# function plot_ai_ar_scatter_histogram(sorted_sim, a, b, S_i, bins=20)
-
-#     a_values = [sorted_sim[S_i][traj].u[a, end] for traj in 1:length(sorted_sim[S_i])]
-#     b_values = [sorted_sim[S_i][traj].u[b, end] for traj in 1:length(sorted_sim[S_i])]
-
-#     scatter(a_values, b_values, alpha=0.5, label="Scatter Plot")
-
-#     xlabel(L"a_r")
-#     ylabel(L"a_i")
-
-#     # Add grid
-#     grid(true)
-
-#     # Set axis limits to center the plot
-#     xlims!(-15, 15)
-#     ylims!(-15, 15)
-
-#     # Create 2D histogram
-#     histogram2d(a_values, b_values, bins=bins, c=:blues, alpha=0.5)
-
-#     #colorbar()
-# end
-
-
-
-# function plot_ai_ar_heatmap(sorted_sim, a, b, S_i, bins=20)
-#     a_values = [sorted_sim[S_i][traj].u[a, end] for traj in 1:length(sorted_sim[S_i])]
-#     b_values = [sorted_sim[S_i][traj].u[b, end] for traj in 1:length(sorted_sim[S_i])]
-
-#     xlabel(L"a_r")
-#     ylabel(L"a_i")
-
-#     # Add grid
-#     grid(true)
-
-#     # Create 2D histogram heatmap with PyPlot
-#     plt[:hist2d](a_values, b_values, bins=bins, cmap="coolwarm", alpha=0.7, extent=[-15, 15, -15, 15])
-
-#     colorbar()
-
-# end
+function plot_ordering_vs_S(filename::String,sims::Array{Sol,1}...)
+    fig, ax = plot_ordering_vs_S(sims...)
+    fig.savefig(filename,dpi=1200)
+end
 
 
 function plot_vs_temp(sim::Array{Sol,1})
