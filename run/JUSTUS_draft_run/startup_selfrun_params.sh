@@ -46,8 +46,7 @@ for temp in $TEMP_ARGS; do
             fi
             # Wait for available jobs
             echo "Waiting on queue to free up..."
-            echo "Total number of pending jobs: $num_jobs"
-            while [ $(echo "$(squeue)" | wc -l) -ge 20 ]; do
+            while [ $(echo "$(squeue)" | wc -l) -gt 20 ]; do
                 sleep 1m  # Adjust the sleep interval as needed
             done
         done
