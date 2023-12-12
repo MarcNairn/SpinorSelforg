@@ -92,7 +92,7 @@ function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
 
     scatter!([center_x_normal], [center_y_normal], marker=:circle, markersize=2 * radius_normal, color=:blue, alpha=0.2)
 
-    # SR BLOB
+    # SR BLOBS
 
     center_x_sr = mean_x_sr
     center_y_sr = mean_y_sr
