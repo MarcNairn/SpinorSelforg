@@ -5,7 +5,7 @@ using Interpolations
 using JLD2
 using Plots
 
-include("sim_reader.jl")
+include("../src/sim_reader.jl")
 
 
 

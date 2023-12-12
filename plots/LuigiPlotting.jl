@@ -14,7 +14,7 @@ using StatsBase
 using PyCall
 
 
-include("selforg_core.jl")
+include("../src/selforg_core.jl")
 #include("custom_functions.jl")
 #using Selforg
 #using CustomFunctions: extract_solution, Sol, intervallize_array
