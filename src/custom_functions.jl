@@ -166,15 +166,15 @@ end
 #TO EXTRACT ALL SIMULATION DATA INTO A COMMON ARRAY
 function load_datalll(directory::AbstractString)
     sim = []
-
+    println("loading data...")
     for file in readdir(directory)
         if endswith(file, ".jld2")
             filetemp = joinpath(directory, file)
-            println("loading $filetemp...")
+            #println("loading $filetemp...")
             push!(sim, load_datal(filetemp))
         end
     end
-
+    println("all files loaded!")
     merge_sim(sim...)
 end
 
