@@ -79,27 +79,27 @@ function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
     xlabel!(L"a_r", fontsize=15)
     ylabel!(L"a_i", fontsize=15)
 
-    Plots.plot!(legend=true)
-    Plots.plot!(grid=true)
+    plot!(legend=true)
+    plot!(grid=true)
 
     xlims!((mean_x_sr - 2*std(scatter_values_sr[:, 1]), mean_x_sr + 2*std(scatter_values_sr[:, 1])))
     ylims!((mean_y_sr - 2*std(scatter_values_sr[:, 2]), mean_y_sr + 2*std(scatter_values_sr[:, 2])))
 
-    #NORMAL BLOB
-    center_x_normal = mean_x_normal
-    center_y_normal = mean_y_normal
-    radius_normal = (max.(scatter_values_sr[:, 1]).-center_x_normal).^2 + (max.(scatter_values_sr[:, 1]).-center_y_normal).^2 
+    # #NORMAL BLOB
+    # center_x_normal = mean_x_normal
+    # center_y_normal = mean_y_normal
+    # radius_normal = (max.(scatter_values_sr[:, 1]).-center_x_normal).^2 + (max.(scatter_values_sr[:, 1]).-center_y_normal).^2 
 
-    scatter!([center_x_normal], [center_y_normal], marker=:circle, markersize=2 * radius_normal, color=:blue, alpha=0.2)
+    # scatter!([center_x_normal], [center_y_normal], marker=:circle, markersize=2 * radius_normal, color=:blue, alpha=0.2)
 
-    # SR BLOBS
+    # # SR BLOBS
 
-    center_x_sr = mean_x_sr
-    center_y_sr = mean_y_sr
-    radius_sr = (max.(scatter_values_sr[:, 1]).-center_x_sr).^2 + (max.(scatter_values_sr[:, 1]).-center_y_sr).^2 
+    # center_x_sr = mean_x_sr
+    # center_y_sr = mean_y_sr
+    # radius_sr = (max.(scatter_values_sr[:, 1]).-center_x_sr).^2 + (max.(scatter_values_sr[:, 1]).-center_y_sr).^2 
 
-    scatter!([center_x_sr], [center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
-    scatter!([-1*center_x_sr], [-1*center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
+    # scatter!([center_x_sr], [center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
+    # scatter!([-1*center_x_sr], [-1*center_y_sr], marker=:circle, markersize=2 * radius_sr, color=:red, alpha=0.2)
 
     # xlims!(-15, 15)
     # ylims!(-15, 15)
