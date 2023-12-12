@@ -29,8 +29,8 @@ for temp in $TEMP_ARGS; do
                 if [ "$S" -le 34 ]; then
                     time_allocation="00:30:00"
                 elif [ "$S" -le 39 ]; then
-                    # Steeper increase from 30 minutes to 2.5 hours
-                    additional_minutes=$((($S - 34) * 30))
+                    # Steeper increase from 30 minutes to 2 and a bit hours
+                    additional_minutes=$((($S - 34) * 20))
                     time_allocation="00:$(($additional_minutes + 20)):00"
                 elif [ "$S" -le 44 ]; then
                     time_allocation="00:240:00"
