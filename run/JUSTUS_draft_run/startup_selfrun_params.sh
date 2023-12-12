@@ -44,12 +44,13 @@ for temp in $TEMP_ARGS; do
                 echo "Job queue full. No action taken for arguments: temp=$temp, S=$S, run=$run."
                 pending_jobs=true
             fi
+            # Wait for all jobs to finish within the S loop
+            echo "Waiting on queue to free up..."
+            while [ $(echo "$(squeue)" | wc -l) -ge 20 ]; do
+                sleep 1m  # Adjust the sleep interval as needed
+            done
         done
-        # Wait for all jobs to finish within the S loop
-        echo "Waiting on queue to free up..."
-        while [ $(echo "$(squeue)" | wc -l) -ge 20 ]; do
-            sleep 1m  # Adjust the sleep interval as needed
-        done
+
     done
 done
 
