@@ -3,8 +3,7 @@
 
 using Interpolations
 using JLD2
-using PyPlot
-using PyCall
+using Plots
 
 include("../src/sim_reader.jl")
 
@@ -89,100 +88,100 @@ end
 # end
 
 
-# function plot_ordering_vs_S(sims::Array{Sol,1}...)
+function plot_ordering_vs_S(sims::Array{Sol,1}...)
 
-#     colorlist = ["C1","C2","C3","C4","C5","C6"]
-#     linelist = ["-","--",":","-.","-."]
+    colorlist = ["C1","C2","C3","C4","C5","C6"]
+    linelist = ["-","--",":","-.","-."]
 
-#     # fig, ax = subplots(3,1,figsize=[3.4, 5.3],sharex=true)
-#     fig, ax = subplots(4,1,figsize=[3.4, 7.3],sharex=true)
+    # fig, ax = subplots(3,1,figsize=[3.4, 5.3],sharex=true)
+    fig, ax = subplots(4,1,figsize=[3.4, 7.3],sharex=true)
 
-#     ax[1].set_ylabel(L"cavity population $\langle a^\dag a \rangle$")
-#     ax[2].set_ylabel(L"order parameter $\vert\Phi\vert$")
-#     ax[3].set_ylabel(L"bunching parameter $\mathcal{B}$")
-#     ax[4].set_ylabel(L"final kinetic energy $E_\mathrm{kin}/\hbar\kappa$")
-#     ax[end].set_xlabel(L"pump strength $\sqrt{N}S/\kappa$")
+    ax[1].set_ylabel(L"cavity population $\langle a^\dag a \rangle$")
+    ax[2].set_ylabel(L"order parameter $\vert\Phi\vert$")
+    ax[3].set_ylabel(L"bunching parameter $\mathcal{B}$")
+    ax[4].set_ylabel(L"final kinetic energy $E_\mathrm{kin}/\hbar\kappa$")
+    ax[end].set_xlabel(L"pump strength $\sqrt{N}S/\kappa$")
 
-#     for (i,sim) in enumerate(sims)
-#         println("found $(size(sim)[end]) trajectories")
-#         println("-----------------------------------------")
+    for (i,sim) in enumerate(sims)
+        println("found $(size(sim)[end]) trajectories")
+        println("-----------------------------------------")
 
-#         categories, par_list = split_sim_from_par(sim,true)
+        categories, par_list = split_sim_from_par(sim,true)
 
-#         S = Float64[]
-#         y1 = Float64[]
-#         y2 = Array{Float64,1}[]
-#         y3 = Float64[]
-#         y4 = Array{Float64,1}[]
-#         y5 = Float64[]
-#         y6 = Array{Float64,1}[]
-#         y7 = Float64[]
-#         y8 = Array{Float64,1}[]
-#         for x in categories
-#             push!(S,abs(x[1].p.S₁)*sqrt(x[1].p.N)/x[1].p.κ)
+        S = Float64[]
+        y1 = Float64[]
+        y2 = Array{Float64,1}[]
+        y3 = Float64[]
+        y4 = Array{Float64,1}[]
+        y5 = Float64[]
+        y6 = Array{Float64,1}[]
+        y7 = Float64[]
+        y8 = Array{Float64,1}[]
+        for x in categories
+            push!(S,abs(x[1].p.S₁)*sqrt(x[1].p.N)/x[1].p.κ)
 
-#             m,s,q = expect(adaga,x)
-#             push!(y1,m[end])
-#             push!(y2,q[end])
+            m,s,q = expect(adaga,x)
+            push!(y1,m[end])
+            push!(y2,q[end])
 
-#             m,s,q = expect(absX,x)
-#             push!(y3,m[end])
-#             push!(y4,q[end])
+            m,s,q = expect(absX,x)
+            push!(y3,m[end])
+            push!(y4,q[end])
 
-#             m,s,q = expect(Cos2,x)
-#             push!(y5,m[end])
-#             push!(y6,q[end])
+            m,s,q = expect(Cos2,x)
+            push!(y5,m[end])
+            push!(y6,q[end])
 
-#             m,s,q = expect(Ekin,x)./x[1].p.κ
-#             push!(y7,m[end])
-#             push!(y8,q[end])
-#         end
+            m,s,q = expect(Ekin,x)./x[1].p.κ
+            push!(y7,m[end])
+            push!(y8,q[end])
+        end
 
-#         A = sortslices(hcat(S,y1,vcat(y2'...),y3,vcat(y4'...),y5,vcat(y6'...),y7,vcat(y8'...)),dims=1)
-#         S = A[:,1]
-#         y1 = A[:,2]
-#         y2 = A[:,3:4]
-#         y3 = A[:,5]
-#         y4 = A[:,6:7]
-#         y5 = A[:,8]
-#         y6 = A[:,9:10]
-#         y7 = A[:,11]
-#         y8 = A[:,12:13]
+        A = sortslices(hcat(S,y1,vcat(y2'...),y3,vcat(y4'...),y5,vcat(y6'...),y7,vcat(y8'...)),dims=1)
+        S = A[:,1]
+        y1 = A[:,2]
+        y2 = A[:,3:4]
+        y3 = A[:,5]
+        y4 = A[:,6:7]
+        y5 = A[:,8]
+        y6 = A[:,9:10]
+        y7 = A[:,11]
+        y8 = A[:,12:13]
 
-#         # matplotlib[:rc]("axes", labelpad=1)
+        # matplotlib[:rc]("axes", labelpad=1)
 
-#         if par_list[1].temp == 0.0
-#             label = "\$temp=0\$"
-#         elseif par_list[1].temp < par_list[1].κ
-#             label = "\$temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
-#         else
-#             label = "\$temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
-#         end
+        if par_list[1].temp == 0.0
+            label = "\$temp=0\$"
+        elseif par_list[1].temp < par_list[1].κ
+            label = "\$temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
+        else
+            label = "\$temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
+        end
 
-#         ax[1].plot(S,y1,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-#         ax[1].fill_between(S,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+        ax[1].plot(S,y1,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[1].fill_between(S,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
 
-#         ax[2].plot(S,y3,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-#         ax[2].fill_between(S,y4[:,1],y4[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+        ax[2].plot(S,y3,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[2].fill_between(S,y4[:,1],y4[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
 
-#         ax[3].plot(S,y5,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-#         ax[3].fill_between(S,y6[:,1],y6[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+        ax[3].plot(S,y5,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[3].fill_between(S,y6[:,1],y6[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
 
-#         ax[4].plot(S,y7,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-#         ax[4].fill_between(S,y8[:,1],y8[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
-#     end
+        ax[4].plot(S,y7,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+        ax[4].fill_between(S,y8[:,1],y8[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+    end
 
-#     ax[1].legend(handlelength=2.5,loc="upper left",bbox_to_anchor=(0.2, 1.08),framealpha=1)
-#     fig.tight_layout(h_pad=0.)
+    ax[1].legend(handlelength=2.5,loc="upper left",bbox_to_anchor=(0.2, 1.08),framealpha=1)
+    fig.tight_layout(h_pad=0.)
 
-#     for i in 1:4
-#         letter = Char(Int('a')+i-1)
-#         ax[i].text(0.05,0.87,"("*letter*")",transform=ax[i].transAxes)
-#     end
+    for i in 1:4
+        letter = Char(Int('a')+i-1)
+        ax[i].text(0.05,0.87,"("*letter*")",transform=ax[i].transAxes)
+    end
 
 
-#     return fig, ax
-# end
+    return fig, ax
+end
 
 # function plot_ordering_vs_S(filename::String,sims::Array{Sol,1}...)
 #     fig, ax = plot_ordering_vs_S(sims...)
@@ -349,102 +348,102 @@ function plot_interp_threshold(solorsim,filename::String)
 end
 
 
-function plot_ordering_vs_S(sims::Array{Sol,1}...)
+# function plot_ordering_vs_S(sims::Array{Sol,1}...)
 
-    colorlist = ["C1","C2","C3","C4","C5","C6"]
-    linelist = ["-","--",":","-.","-."]
+#     colorlist = ["C1","C2","C3","C4","C5","C6"]
+#     linelist = ["-","--",":","-.","-."]
 
-    # fig, ax = subplots(3,1,figsize=[3.4, 5.3],sharex=true)
-    fig, ax = subplots(4,1,figsize=[3.4, 7.3],sharex=true)
+#     # fig, ax = subplots(3,1,figsize=[3.4, 5.3],sharex=true)
+#     fig, ax = subplots(4,1,figsize=[3.4, 7.3],sharex=true)
 
-    ax[1].set_ylabel(L"cavity population $\langle a^\dag a \rangle$")
-    ax[2].set_ylabel(L"order parameter $\vert\Phi\vert$")
-    ax[3].set_ylabel(L"bunching parameter $\mathcal{B}$")
-    ax[4].set_ylabel(L"final kinetic energy $E_\mathrm{kin}/\hbar\kappa$")
-    ax[end].set_xlabel(L"pump strength $\sqrt{N}S/\kappa$")
+#     ax[1].set_ylabel(L"cavity population $\langle a^\dag a \rangle$")
+#     ax[2].set_ylabel(L"order parameter $\vert\Phi\vert$")
+#     ax[3].set_ylabel(L"bunching parameter $\mathcal{B}$")
+#     ax[4].set_ylabel(L"final kinetic energy $E_\mathrm{kin}/\hbar\kappa$")
+#     ax[end].set_xlabel(L"pump strength $\sqrt{N}S/\kappa$")
 
-    for (i,sim) in enumerate(sim)
-        println("found $(size(sim)[end]) trajectories")
-        println("-----------------------------------------")
+#     for (i,sim) in enumerate(sim)
+#         println("found $(size(sim)[end]) trajectories")
+#         println("-----------------------------------------")
 
-        categories, par_list = split_sim_from_par(sim,true)
+#         categories, par_list = split_sim_from_par(sim,true)
 
-        S = Float64[]
-        y1 = Float64[]
-        y2 = Array{Float64,1}[]
-        y3 = Float64[]
-        y4 = Array{Float64,1}[]
-        y5 = Float64[]
-        y6 = Array{Float64,1}[]
-        y7 = Float64[]
-        y8 = Array{Float64,1}[]
-        for x in categories
-            push!(S,abs(x[1].p.S₁)*sqrt(x[1].p.N)/x[1].p.κ)
+#         S = Float64[]
+#         y1 = Float64[]
+#         y2 = Array{Float64,1}[]
+#         y3 = Float64[]
+#         y4 = Array{Float64,1}[]
+#         y5 = Float64[]
+#         y6 = Array{Float64,1}[]
+#         y7 = Float64[]
+#         y8 = Array{Float64,1}[]
+#         for x in categories
+#             push!(S,abs(x[1].p.S₁)*sqrt(x[1].p.N)/x[1].p.κ)
 
-            m,s,q = expect(adaga,x)
-            push!(y1,m[end])
-            push!(y2,q[end])
+#             m,s,q = expect(adaga,x)
+#             push!(y1,m[end])
+#             push!(y2,q[end])
 
-            m,s,q = expect(absX,x)
-            push!(y3,m[end])
-            push!(y4,q[end])
+#             m,s,q = expect(absX,x)
+#             push!(y3,m[end])
+#             push!(y4,q[end])
 
-            m,s,q = expect(Cos2,x)
-            push!(y5,m[end])
-            push!(y6,q[end])
+#             m,s,q = expect(Cos2,x)
+#             push!(y5,m[end])
+#             push!(y6,q[end])
 
-            m,s,q = expect(Ekin,x)./x[1].p.κ
-            push!(y7,m[end])
-            push!(y8,q[end])
-        end
+#             m,s,q = expect(Ekin,x)./x[1].p.κ
+#             push!(y7,m[end])
+#             push!(y8,q[end])
+#         end
 
-        A = sortslices(hcat(S,y1,vcat(y2'...),y3,vcat(y4'...),y5,vcat(y6'...),y7,vcat(y8'...)),dims=1)
-        S = A[:,1]
-        y1 = A[:,2]
-        y2 = A[:,3:4]
-        y3 = A[:,5]
-        y4 = A[:,6:7]
-        y5 = A[:,8]
-        y6 = A[:,9:10]
-        y7 = A[:,11]
-        y8 = A[:,12:13]
+#         A = sortslices(hcat(S,y1,vcat(y2'...),y3,vcat(y4'...),y5,vcat(y6'...),y7,vcat(y8'...)),dims=1)
+#         S = A[:,1]
+#         y1 = A[:,2]
+#         y2 = A[:,3:4]
+#         y3 = A[:,5]
+#         y4 = A[:,6:7]
+#         y5 = A[:,8]
+#         y6 = A[:,9:10]
+#         y7 = A[:,11]
+#         y8 = A[:,12:13]
 
-        # matplotlib[:rc]("axes", labelpad=1)
+#         # matplotlib[:rc]("axes", labelpad=1)
 
-        if par_list[1].temp == 0.0
-            label = "\$temp=0\$"
-        elseif par_list[1].temp < par_list[1].κ
-            label = "\$temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
-        else
-            label = "\$temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
-        end
+#         if par_list[1].temp == 0.0
+#             label = "\$temp=0\$"
+#         elseif par_list[1].temp < par_list[1].κ
+#             label = "\$temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
+#         else
+#             label = "\$temp="*string(trunc(Int,par_list[1].temp/par_list[1].κ))*"\\kappa\$"
+#         end
 
-        ax[1].plot(S,y1,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-        ax[1].fill_between(S,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+#         ax[1].plot(S,y1,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+#         ax[1].fill_between(S,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
 
-        ax[2].plot(S,y3,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-        ax[2].fill_between(S,y4[:,1],y4[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+#         ax[2].plot(S,y3,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+#         ax[2].fill_between(S,y4[:,1],y4[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
 
-        ax[3].plot(S,y5,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-        ax[3].fill_between(S,y6[:,1],y6[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+#         ax[3].plot(S,y5,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+#         ax[3].fill_between(S,y6[:,1],y6[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
 
-        ax[4].plot(S,y7,ls=linelist[i],color=colorlist[i],label=latexstring(label))
-        ax[4].fill_between(S,y8[:,1],y8[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
-    end
+#         ax[4].plot(S,y7,ls=linelist[i],color=colorlist[i],label=latexstring(label))
+#         ax[4].fill_between(S,y8[:,1],y8[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+#     end
 
-    ax[1].legend(handlelength=2.5,loc="upper left",bbox_to_anchor=(0.2, 1.08),framealpha=1)
-    fig.tight_layout(h_pad=0.)
+#     ax[1].legend(handlelength=2.5,loc="upper left",bbox_to_anchor=(0.2, 1.08),framealpha=1)
+#     fig.tight_layout(h_pad=0.)
 
-    for i in 1:4
-        letter = Char(Int('a')+i-1)
-        ax[i].text(0.05,0.87,"("*letter*")",transform=ax[i].transAxes)
-    end
+#     for i in 1:4
+#         letter = Char(Int('a')+i-1)
+#         ax[i].text(0.05,0.87,"("*letter*")",transform=ax[i].transAxes)
+#     end
 
 
-    return fig, ax
-end
+#     return fig, ax
+# end
 
-function plot_ordering_vs_S(filename::String,sims::Array{Sol,1}...)
-    fig, ax = plot_ordering_vs_S(sims...)
-    fig.savefig(filename,dpi=1200)
-end
+# function plot_ordering_vs_S(filename::String,sims::Array{Sol,1}...)
+#     fig, ax = plot_ordering_vs_S(sims...)
+#     fig.savefig(filename,dpi=1200)
+# end

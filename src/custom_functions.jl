@@ -182,7 +182,7 @@ function load_datalll(directory::AbstractString, temp_value::Int)
     sim = []
     println("loading data...")
     for file in readdir(directory)
-        if endswith(file, ".jld2") && contains(file, "temp=$temp_value")
+        if endswith(file, ".jld2") && contains(file, "temp=$temp_value,") #need the comma so that only unique integer values are picked and not stringed, i.e. 1 and not 1,10,12...
             filetemp = joinpath(directory, file)
             #println("loading $filetemp...")
             push!(sim, load_datal(filetemp))
