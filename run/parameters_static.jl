@@ -8,7 +8,7 @@ U₁ = U₂ = 0.0
 κ = 100. # decay rate of the cavity field (units of ω\_R)
 S₁ = g
 S₂ = g
-Δₑ = 10
+Δₑ = 1
 Δc = -κ
 num_monte = 1 #increased momentarily to optimise full parameter array in slurm queue 
 #for num_monte>>1 need ~6-12hrs on cluster

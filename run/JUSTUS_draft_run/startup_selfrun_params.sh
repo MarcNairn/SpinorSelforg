@@ -62,8 +62,8 @@
 
 # Define the list of arguments
 S_ARGS="28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47"
-TEMP_ARGS="20 30 40"
-
+TEMP_ARGS="5 20" # 30 40"
+Delta_e=1
 
 # Set initial time
 time_allocation="00:30:00"
@@ -94,16 +94,15 @@ for temp in $TEMP_ARGS; do
             start_time=$(date +"%s")
 
             sbatch -a 0-999 --time $time_allocation run/JUSTUS_draft_run/run_justus_static.sh $S $temp
-            echo "New job submitted, with arguments: S=$S, temp=$temp."
+            echo "New job submitted, with arguments: Delta_e=$Delta_e, S=$S, temp=$temp."
 
         else
             echo "ERROR: Job queue overran! Current job (S=$S, temp=$temp) will be skipped..."
         fi
 
-        end_num_jobs=$(echo "$(squeue)" | wc -l)
-        ((end_num_jobs--))
-        while [ "$end_num_jobs" -ge 1 ]; do
-            sleep 1m  # Adjust the sleep interval as needed
+	echo "Waiting on jobs to finish..."
+        while [ $(echo "$(squeue)" | wc -l) -gt 1 ]; do
+            sleep 1s  # Adjust the sleep interval as needed
         done
 
         # Calculate and print elapsed time for the job
