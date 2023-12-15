@@ -566,13 +566,13 @@ observable_dict = Dict( :Ekin => Ekin,
 ####################################################################################
 
 
-function categorize_traj(sol::Sol)
+function categorize_traj(sol::Sol) #categorise the broken Z₂ symmetry X,Y states
     expect(X,sol)[end] >=0 ? x=1 : x=-1
     expect(Y,sol)[end] >=0 ? y=1 : y=-1
     return x,y
 end
 
-function split_sim(sim::Array{Sol,1})
+function split_sim(sim::Array{Sol,1})  
     a,b,c,d = Sol[],Sol[],Sol[],Sol[]
     # a = (-1,-1), b = (-1,1), c=(1,-1), d=(1,1)
     for sol in sim
