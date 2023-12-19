@@ -163,7 +163,7 @@ end
 #THE FOLLOWING EXTRACTS ALL SIMULATIONS STORED AS .JLD FILES INTO A SIMULATION ARRAY FROM WHICH WE MAY EXTRACT THE OBSERVABLE sim_data
 #ALSO USED TO CLEAN UP ALL THE USED JLD2 FILES AND STORE THEM IN N_TRAJECTORY SIZED BATCHES
 
-#TO EXTRACT ALL SIMULATION DATA INTO A COMMON ARRAY
+#TO EXTRACT ALL SIMULATION DATA IN DIRECTORY INTO A COMMON ARRAY
 function load_datalll(directory::AbstractString)
     sim = []
     println("loading data...")
@@ -178,7 +178,8 @@ function load_datalll(directory::AbstractString)
     merge_sim(sim...)
 end
 
-function load_datalll(directory::AbstractString, temp_value::Int)
+#load all simulations of a given temperature value
+function load_data_temp(directory::AbstractString, temp_value::Int)
     sim = []
     println("loading data...")
     for file in readdir(directory)
@@ -192,6 +193,49 @@ function load_datalll(directory::AbstractString, temp_value::Int)
     merge_sim(sim...)
 end
 
+#load all simulations of a given atomic frequency value
+function load_data_delta(directory::AbstractString, Delta_e::Int)
+    sim = []
+    println("loading data...")
+    for file in readdir(directory)
+        if endswith(file, ".jld2") && contains(file, "Delta_e=$Delta_e,") #need the comma so that only unique integer values are picked and not stringed, i.e. 1 and not 1,10,12...
+            filetemp = joinpath(directory, file)
+            #println("loading $filetemp...")
+            push!(sim, load_datal(filetemp))
+        end
+    end
+    println("all files loaded!")
+    merge_sim(sim...)
+end
+
+function load_data_deltatemp(directory::AbstractString, Delta_e::Int, temp::Int)
+    sim = []
+    println("loading data...")
+    elt=@elapsed for file in readdir(directory)
+        if endswith(file, ".jld2") && contains(file, "Delta_e=$Delta_e,") && contains(file, "temp=$temp,") #need the comma so that only unique integer values are picked and not stringed, i.e. 1 and not 1,10,12...
+            filetemp = joinpath(directory, file)
+            println("loading $filetemp...")
+            push!(sim, load_datal(filetemp))
+        end
+    end
+    println("all files loaded in $elt seconds!")
+    merge_sim(sim...)
+end
+
+
+function load_data_deltatemp_alt(directory::AbstractString, temp::Int) #Delta_e=10 files do not contain the string Delta_e
+    sim = []
+    println("loading data...")
+    elt=@elapsed for file in readdir(directory)
+        if endswith(file, ".jld2") && !contains(file, "Delta_e=") && contains(file, "temp=$temp,") #need the comma so that only unique integer values are picked and not stringed, i.e. 1 and not 1,10,12...
+            filetemp = joinpath(directory, file)
+            println("loading $filetemp...")
+            push!(sim, load_datal(filetemp))
+        end
+    end
+    println("all files loaded in $elt seconds!")
+    merge_sim(sim...)
+end
 #RUN THROUGH ALL SIM DATA, CATEGORISE IT IN BATCHES OF THE SAME PARAMETERS AND SAVE IT IN MANY TRAJECTORY FILES
 function sort_save_datal(directory::AbstractString) #take array of array of solutions, i.e. array of many trajectory simulations per entry
     #set_traj_number to some integer we are aware should match with the desired number of trajectories 
@@ -199,7 +243,7 @@ function sort_save_datal(directory::AbstractString) #take array of array of solu
     temps = 1,5,10,12
 
     for temp in temps
-        data = load_datalll(directory, temp)
+        data = load_datalll(directory::AbstractStr)
             for batch in data 
                 g = Int(batch[1].p.S₁) #to sort by pumping strength
 

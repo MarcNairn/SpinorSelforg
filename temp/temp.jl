@@ -3,6 +3,8 @@ using JLD2
 using Plots
 using LaTeXStrings
 
+include("../src/custom_functions.jl")
+include("../src/selforg_core.jl")
 # script to generate the numerical value of the critical coupling in the normal-SR phase transition of the main script   
 
 #FIND NEW FUNCTION AS "plot_interpolate_threshold"
@@ -90,3 +92,20 @@ function find_interp_crossover(sim::Array{Sol, 1})
     #closest_to_zero_y should be 0 in an ideal case
     return closest_to_zero_x, closest_to_zero_y
 end
+
+
+##Delta_e=1
+
+sim_array_5d1 = load_data_deltatemp("full_sims_traj1000", 1, 5)
+
+sim_array_10d1 = load_data_deltatemp("full_sims_traj1000", 1, 10)
+
+sim_array_20d1 = load_data_deltatemp("full_sims_traj1000", 1, 20)
+
+#Delta_e=10
+
+sim_array_5_d10 = load_data_deltatemp_alt("full_sims_traj1000", 5)
+
+sim_array_10_d10 = load_data_deltatemp_alt("full_sims_traj1000", 10)
+
+sim_array_20_d10 = load_data_deltatemp_alt("full_sims_traj1000", 20)
