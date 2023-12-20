@@ -204,11 +204,13 @@ end
 
 # CHANGE TO AVOID USING PLOTS; CHANGE TO USE PYPLOT INSTEAD
 
-function plot_interp_threshold(sims::Array{Sol, 1}...)
+function plot_interp_threshold_adaga(sims::Array{Sol, 1}...)
 
     colorlist = ["C1","C2","C3","C4","C5","C6"]
     linelist = ["-","--",":","-.","-."]
     fig, ax1 = plt.subplots()
+    left, bottom, width, height = [0.25, 0.6, 0.2, 0.2]
+    ax2 = fig.add_axes([left, bottom, width, height])
 
     for (i,sim) in enumerate(sims)
         println("found $(size(sim)[end]) trajectories")
@@ -252,29 +254,28 @@ function plot_interp_threshold(sims::Array{Sol, 1}...)
 
 
 
-        ax1.plot(x, y1, ls=linelist[2i-1],color=colorlist[2i-1], label="data, $par_list[$i]", alpha=0.8)
-        #ax1.fill_between(x,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
-        ax1.plot(x_smooth, f_linear.(x_smooth), ls=linelist[2i],color=colorlist[2i], label="linear, $par_list[$i]", alpha=0.8, markersize=0.5)
-        ax1.plot(x_smooth, f_cubic.(x_smooth), ls=linelist[2i+1],color=colorlist[2i+1], label="cubic, $par_list[$i]", alpha=0.5, markersize=0.5)
+        ax1.plot(x, y1, ls=linelist[1],color=colorlist[i], label=latexstring(label), alpha=0.8) #data
+        ax1.fill_between(x,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+        #ax1.plot(x_smooth, f_linear.(x_smooth), ls=linelist[i+1],color=colorlist[i+1], label="linear", alpha=0.8, markersize=0.5) #linear
+        ax1.plot(x_smooth, f_cubic.(x_smooth), ls=linelist[2],color=colorlist[i], label="cubic", alpha=0.5, markersize=0.5)
 
         # Customize plot
         ax1.set_xlabel(L"|S₁|=|S₂|")
         ax1.set_ylabel(L"\langle a^\dagger a\rangle")
-        ax1.legend(loc="bottom right")
+        ax1.legend(loc="best")
         #Inset 
         # Calculate second derivative using Central Finite Difference
         delta_x = x_smooth[2] - x_smooth[1]
         f_cubic_second_derivative(x) = (f_cubic(x - delta_x) - 2 * f_cubic(x) + f_cubic(x + delta_x)) / delta_x^2
 
-        inset_x_range = 35:0.01:37.5
+        inset_x_range = 34.5:0.01:41
         inset_y_values = f_cubic_second_derivative.(inset_x_range)
-        left, bottom, width, height = [0.25, 0.6, 0.2, 0.2]
-        ax2 = fig.add_axes([left, bottom, width, height])
-        ax2.plot(inset_x_range, inset_y_values, color="black", "--", alpha=0.5)#, inset=(1, bbox(0.1, 0.5, 0.3, 0.3)), subplot=2, linestyle=:dash, linewidth=5,, label=nothing, grid=false, xtickfontsize=10, ytickfontsize=10, xlabelfontsize=15, ylabelfontsize=15)
+        ax2.plot(inset_x_range, inset_y_values, color="black", ls=linelist[i], alpha=0.5, label=latexstring(label))#, inset=(1, bbox(0.1, 0.5, 0.3, 0.3)), subplot=2, linestyle=:dash, linewidth=5,, label=nothing, grid=false, xtickfontsize=10, ytickfontsize=10, xlabelfontsize=15, ylabelfontsize=15)
         ax2.set_xlabel(L"S")
         ax2.set_ylabel(L"\partial_S^2⟨a^\dagger a\rangle")
         # Draw a horizontal line at y=0 in the inset plot
         ax2.axhline(y=0, color=:black, alpha=0.5, label=nothing)
+        ax2.legend(loc="best")
 
         closest_to_zero_index = argmin(abs.(inset_y_values))
         closest_to_zero_x = inset_x_range[closest_to_zero_index]
@@ -283,13 +284,172 @@ function plot_interp_threshold(sims::Array{Sol, 1}...)
     end
 end
 
-function plot_interp_threshold(solorsim,filename::String)
-    fig, ax = plot_interp_threshold(solorsim)
+function plot_interp_threshold_adaga(solorsim,filename::String)
+    fig, ax = plot_interp_threshold_adaga(solorsim)
     fig[:savefig](filename)
 end
 
+function plot_interp_threshold_order_param_delta(sims::Array{Sol, 1}...)
+
+    colorlist = ["C1","C2","C3","C4","C5","C6"]
+    linelist = ["-","--",":","-.","-."]
+    fig, ax1 = plt.subplots()
+    left, bottom, width, height = [0.25, 0.6, 0.2, 0.2]
+    ax2 = fig.add_axes([left, bottom, width, height])
+    ax1.set_xlabel(L"|S₁|=|S₂|")
+    ax1.set_ylabel(L"order parameter $\vert\Phi\vert$")
+    ax2.set_xlabel(L"|S₁|=|S₂|")
+    ax2.set_ylabel(L"\partial_S^2\vert\Phi\vert")
 
 
+
+    for (i,sim) in enumerate(sims)
+        println("found $(size(sim)[end]) trajectories")
+        println("-----------------------------------------")
+
+        categories, par_list = split_sim_from_par(sim, true)
+        
+        S = Float64[]
+        y1 = Float64[]
+        y2 = Array{Float64,1}[]
+        
+        for x in categories
+            push!(S,abs(x[1].p.S₁))#*sqrt(x[1].p.N)/x[1].p.κ) #extract coupling strengths from sorted_sims
+        
+            m, s, q = expect(absX, x) #extract mean, standard dev and 90 quantile
+            push!(y1, m[end])
+            push!(y2, q[end])
+        end 
+
+        A = sortslices(hcat(S,y1,vcat(y2'...)),dims=1)
+        S = A[:,1]
+        y1 = A[:,2]
+        y2 = A[:,3:4]
+
+        if par_list[1].Δₑ != 0.0
+            label = "\$\\Delta_e=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].Δₑ))*"\$"
+        else
+            label = "\$\\Delta_e=0\$"
+        end
+
+        #Need to make S into an equally spaced Tuple
+        x = S[1]:1.0:S[end]
+            
+        itp_linear = linear_interpolation(x, y1)
+        itp_cubic = cubic_spline_interpolation(x, y1)
+        # Interpolation functions
+        f_linear(x) = itp_linear(x)
+        f_cubic(x) = itp_cubic(x)
+        
+        x_smooth = S[1]:0.1:S[end] # smoother interval, necessary for cubic spline
+
+
+
+        ax1.plot(x, y1, ls=linelist[1],color=colorlist[i], label=latexstring(label), alpha=0.8) #data
+        ax1.fill_between(x,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+        #ax1.plot(x_smooth, f_linear.(x_smooth), ls=linelist[i+1],color=colorlist[i+1], label="linear", alpha=0.8, markersize=0.5) #linear
+        ax1.plot(x_smooth, f_cubic.(x_smooth), ls=linelist[2],color=colorlist[i], label="cubic", alpha=0.5, markersize=0.5)
+        ax1.legend(loc="best")
+
+        #Inset 
+        # Calculate second derivative using Central Finite Difference
+        delta_x = x_smooth[2] - x_smooth[1]
+        f_cubic_second_derivative(x) = (f_cubic(x - delta_x) - 2 * f_cubic(x) + f_cubic(x + delta_x)) / delta_x^2
+
+        inset_x_range = 33:0.01:37
+        inset_y_values = f_cubic_second_derivative.(inset_x_range)
+        ax2.plot(inset_x_range, inset_y_values, color=colorlist[i], ls=linelist[i], alpha=0.5, label=latexstring(label))#, inset=(1, bbox(0.1, 0.5, 0.3, 0.3)), subplot=2, linestyle=:dash, linewidth=5,, label=nothing, grid=false, xtickfontsize=10, ytickfontsize=10, xlabelfontsize=15, ylabelfontsize=15)
+        # Draw a horizontal line at y=0 in the inset plot
+        ax2.axhline(y=0, color=:black, alpha=0.5, label=nothing)
+        ax2.legend(loc="best")
+
+        closest_to_zero_index = argmin(abs.(inset_y_values))
+        closest_to_zero_x = inset_x_range[closest_to_zero_index]
+        closest_to_zero_y = inset_y_values[closest_to_zero_index]
+        ax2.scatter([closest_to_zero_x], [closest_to_zero_y], color=:black, alpha=0.8)
+    end
+end
+
+function plot_interp_threshold_order_param_temp(sims::Array{Sol, 1}...)
+
+    colorlist = ["C1","C2","C3","C4","C5","C6"]
+    linelist = ["-","--",":","-.","-."]
+    fig, ax1 = plt.subplots()
+    left, bottom, width, height = [0.25, 0.6, 0.2, 0.2]
+    ax2 = fig.add_axes([left, bottom, width, height])
+    ax1.set_xlabel(L"|S₁|=|S₂|")
+    ax1.set_ylabel(L"order parameter $\vert\Phi\vert$")
+    ax2.set_xlabel(L"|S₁|=|S₂|")
+    ax2.set_ylabel(L"\partial_S^2\vert\Phi\vert")
+
+
+
+    for (i,sim) in enumerate(sims)
+        println("found $(size(sim)[end]) trajectories")
+        println("-----------------------------------------")
+
+        categories, par_list = split_sim_from_par(sim, true)
+        
+        S = Float64[]
+        y1 = Float64[]
+        y2 = Array{Float64,1}[]
+        
+        for x in categories
+            push!(S,abs(x[1].p.S₁))#*sqrt(x[1].p.N)/x[1].p.κ) #extract coupling strengths from sorted_sims
+        
+            m, s, q = expect(absX, x) #extract mean, standard dev and 90 quantile
+            push!(y1, m[end])
+            push!(y2, q[end])
+        end 
+
+        A = sortslices(hcat(S,y1,vcat(y2'...)),dims=1)
+        S = A[:,1]
+        y1 = A[:,2]
+        y2 = A[:,3:4]
+
+        if par_list[1].temp != 0.0
+            label = "\$temp=\\kappa/"*string(trunc(Int,par_list[1].κ/par_list[1].temp))*"\$"
+        else
+            label = "\$temp=0\$"
+        end
+
+        #Need to make S into an equally spaced Tuple
+        x = S[1]:1.0:S[end]
+            
+        itp_linear = linear_interpolation(x, y1)
+        itp_cubic = cubic_spline_interpolation(x, y1)
+        # Interpolation functions
+        f_linear(x) = itp_linear(x)
+        f_cubic(x) = itp_cubic(x)
+        
+        x_smooth = S[1]:0.1:S[end] # smoother interval, necessary for cubic spline
+
+
+
+        ax1.plot(x, y1, ls=linelist[1],color=colorlist[i], label=latexstring(label), alpha=0.8) #data
+        ax1.fill_between(x,y2[:,1],y2[:,2],color=colorlist[i],alpha=0.2,linewidth=0.1)
+        #ax1.plot(x_smooth, f_linear.(x_smooth), ls=linelist[i+1],color=colorlist[i+1], label="linear", alpha=0.8, markersize=0.5) #linear
+        ax1.plot(x_smooth, f_cubic.(x_smooth), ls=linelist[2],color=colorlist[i], label="cubic", alpha=0.5, markersize=0.5)
+        ax1.legend(loc="best")
+
+        #Inset 
+        # Calculate second derivative using Central Finite Difference
+        delta_x = x_smooth[2] - x_smooth[1]
+        f_cubic_second_derivative(x) = (f_cubic(x - delta_x) - 2 * f_cubic(x) + f_cubic(x + delta_x)) / delta_x^2
+
+        inset_x_range = 31:0.01:36
+        inset_y_values = f_cubic_second_derivative.(inset_x_range)
+        ax2.plot(inset_x_range, inset_y_values, color="black", ls=linelist[i], alpha=0.5, label=latexstring(label))#, inset=(1, bbox(0.1, 0.5, 0.3, 0.3)), subplot=2, linestyle=:dash, linewidth=5,, label=nothing, grid=false, xtickfontsize=10, ytickfontsize=10, xlabelfontsize=15, ylabelfontsize=15)
+        # Draw a horizontal line at y=0 in the inset plot
+        ax2.axhline(y=0, color=:black, alpha=0.5, label=nothing)
+        ax2.legend(loc="best")
+
+        closest_to_zero_index = argmin(abs.(inset_y_values))
+        closest_to_zero_x = inset_x_range[closest_to_zero_index]
+        closest_to_zero_y = inset_y_values[closest_to_zero_index]
+        ax2.scatter([closest_to_zero_x], [closest_to_zero_y], color=:black, alpha=0.8)
+    end
+end
 
 
 
@@ -335,7 +495,7 @@ function plot_spinspositionhisto(sim::Array{Sol,1})
         ax1.set_ylabel(L"spin $\langle\sigma_x\rangle$")
         ax1.set_yticks(collect(-1:0.5:1))
         ax1.set_yticklabels([L"-1",L"-\frac{1}{2}",L"0",L"\frac{1}{2}",L"1"])
-        ax1.hist2d(x,u1[2N+1:3N],bins=nbins,density=true)#,norm=matplotlib.colors.LogNorm())
+        ax1.hist2d(x,u1[2N+1:3N],bins=nbins,density=true)# norm=matplotlib.colors.LogNorm())
 
         ax2 = ax[i,2]
         ax2.set_ylabel(L"spin $\langle\sigma_y\rangle$")

@@ -237,13 +237,11 @@ function load_data_deltatemp_alt(directory::AbstractString, temp::Int) #Delta_e=
     merge_sim(sim...)
 end
 #RUN THROUGH ALL SIM DATA, CATEGORISE IT IN BATCHES OF THE SAME PARAMETERS AND SAVE IT IN MANY TRAJECTORY FILES
-function sort_save_datal(directory::AbstractString) #take array of array of solutions, i.e. array of many trajectory simulations per entry
+function sort_save_datal(directory::AbstractString, Delta_e::Int, temps::Vector{Int}) #take array of array of solutions, i.e. array of many trajectory simulations per entry
     #set_traj_number to some integer we are aware should match with the desired number of trajectories 
 
-    temps = 1,5,10,12
-
     for temp in temps
-        data = load_datalll(directory::AbstractStr)
+        data = load_data_deltatemp(directory::AbstractString, Delta_e::Int, temp::Int)
             for batch in data 
                 g = Int(batch[1].p.S₁) #to sort by pumping strength
 
@@ -254,15 +252,15 @@ function sort_save_datal(directory::AbstractString) #take array of array of solu
                 isdir(target_directory) || mkdir(target_directory)
                 
                 # Construct the file path
-                file_path = joinpath(target_directory, "S=$(g), temp=$(temp), Ntraj=1000-sim_data.jld2")
+                file_path = joinpath(target_directory, "complete_S=$(g), Delta_e=$Delta_e, temp=$(temp).jld2")
                 
                 # Check if the file already exists
                 if !isfile(file_path)
                     # save data
                     save_datal(file_path, batch)
-                    println("Creating file for g=$(g), temp=$(temp) and 1000 trajs in $target_directory")
+                    println("Creating file for g=$(g), temp=$(temp) in $target_directory")
                 else
-                    println("File for g=$(g), temp=$(temp) and 1000 trajs already exists. Skipping...")
+                    println("File for g=$(g), temp=$(temp) already exists. Skipping...")
                 end
             end
     end
