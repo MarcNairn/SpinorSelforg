@@ -122,7 +122,7 @@ end
         u0[1:N] = 2pi.*rand(N) # generate random positions
         u0[N+1:2N] = p.temp .* randn(N) # generate random momenta
 
-        u0[2N+1:4N] = 0.1 .*randn(2N) # σˣⱼ and σʸⱼ 
+        u0[2N+1:4N] = 2bitrand(2N) .- 1 # σˣⱼ and σʸⱼ are 1 or -1 
         u0[4N+1:5N] .= -1. # σᶻⱼ = -1, atoms in the ground state
 
         u0[5N+1:end] .= 0.0 # cavity empty
