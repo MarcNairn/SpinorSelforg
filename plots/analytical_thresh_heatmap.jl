@@ -3,8 +3,8 @@ using PyPlot
 
 
 # Define parameters
-omegauv = range(1, stop=20, length=201)
-delta_Dvv = range(1, stop=100, length=201)
+omegauv = range(0.1, stop=100, length=201)
+delta_Dvv = range(0.1, stop=100, length=201)
 
 gc_values = zeros(Float64, length(omegauv), length(delta_Dvv))
 

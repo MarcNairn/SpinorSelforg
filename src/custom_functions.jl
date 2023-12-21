@@ -223,7 +223,7 @@ function load_data_deltatemp(directory::AbstractString, Delta_e::Int, temp::Int)
 end
 
 
-function load_data_deltatemp_alt(directory::AbstractString, temp::Int) #Delta_e=10 files do not contain the string Delta_e
+function load_data_deltatemp_alt(directory::AbstractString, temp::Int) #Delta_e=10 files do not contain the string Delta_e, should fix later
     sim = []
     println("loading data...")
     elt=@elapsed for file in readdir(directory)
@@ -236,6 +236,8 @@ function load_data_deltatemp_alt(directory::AbstractString, temp::Int) #Delta_e=
     println("all files loaded in $elt seconds!")
     merge_sim(sim...)
 end
+
+
 #RUN THROUGH ALL SIM DATA, CATEGORISE IT IN BATCHES OF THE SAME PARAMETERS AND SAVE IT IN MANY TRAJECTORY FILES
 function sort_save_datal(directory::AbstractString, Delta_e::Int, temps::Vector{Int}) #take array of array of solutions, i.e. array of many trajectory simulations per entry
     #set_traj_number to some integer we are aware should match with the desired number of trajectories 
@@ -267,5 +269,20 @@ function sort_save_datal(directory::AbstractString, Delta_e::Int, temps::Vector{
 end
 #end
 
+################################
+#NEW INITIAL CONDITIONS; BINORND SAMPLED spins
 
+function load_data_binordn(directory::AbstractString)
+    sim = []
+    println("loading data...")
+    for file in readdir(directory)
+        if endswith(file, ".jld2") && contains(file, "binomial_init_spin") #need the comma so that only unique integer values are picked and not stringed, i.e. 1 and not 1,10,12...
+            filetemp = joinpath(directory, file)
+            #println("loading $filetemp...")
+            push!(sim, load_datal(filetemp))
+        end
+    end
+    println("all files loaded!")
+    merge_sim(sim...)
+end
 
