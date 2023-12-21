@@ -56,9 +56,11 @@ function plot_adaga_vs_S(solorsim,filename::String)
     fig[:savefig](filename)
 end
 
-function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
-    sorted_sim = split_sim_from_par(sim)
 
+##### FIX THIS; IMPLEMENT IN PYPLOT
+function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50) 
+    sorted_sim = split_sim_from_par(sim)
+    fig, ax = plt.subplots()
     N::Int = sorted_sim[1][1].p.N  # Extract atom number of simulations
 
     # Extracting values for scatter plot
@@ -78,16 +80,16 @@ function plot_ai_ar_scatter(sim::Array{Sol, 1}, bins=50)
     mean_x_sr = mean(scatter_values_sr[:, 1])
     mean_y_sr = mean(scatter_values_sr[:, 2])
 
-    scatter(scatter_values_sr[:, 1], scatter_values_sr[:, 2], color="blue", alpha=0.5, label="SR", s=25)
-    scatter(scatter_values_normal[:, 1], scatter_values_normal[:, 2], color="red", alpha=0.5, label="Normal", s=25)
+    ax.scatter(scatter_values_sr[:, 1], scatter_values_sr[:, 2], color="blue", alpha=0.5, label="SR", s=25)
+    ax.scatter(scatter_values_normal[:, 1], scatter_values_normal[:, 2], color="red", alpha=0.5, label="Normal", s=25)
 
-    xlabel(L"a_r", fontsize=15)
-    ylabel(L"a_i", fontsize=15)
+    ax.set_label(L"a_r", fontsize=15)
+    ax.set_ylabel(L"a_i", fontsize=15)
 
-    legend()
+    ax.legend()
 
-    xlim(mean_x_sr - 2*std(scatter_values_sr[:, 1]), mean_x_sr + 2*std(scatter_values_sr[:, 1]))
-    ylim(mean_y_sr - 2*std(scatter_values_sr[:, 2]), mean_y_sr + 2*std(scatter_values_sr[:, 2]))
+    ax.xlim(mean_x_sr - 2*std(scatter_values_sr[:, 1]), mean_x_sr + 2*std(scatter_values_sr[:, 1]))
+    ax.ylim(mean_y_sr - 2*std(scatter_values_sr[:, 2]), mean_y_sr + 2*std(scatter_values_sr[:, 2]))
 
 end
 

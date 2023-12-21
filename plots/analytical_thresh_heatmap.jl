@@ -3,8 +3,8 @@ using PyPlot
 
 
 # Define parameters
-omegauv = range(0.1, stop=100, length=201)
-delta_Dvv = range(0.1, stop=100, length=201)
+omegauv = range(0.1, stop=5, length=201)
+delta_Dvv = range(0.1, stop=125, length=201)
 
 gc_values = zeros(Float64, length(omegauv), length(delta_Dvv))
 
@@ -14,7 +14,7 @@ for (i, omegau) in enumerate(omegauv)
         N = 100
         kappa = 100
         Deltac = 100
-        omegar = 1 / 100 * deltaDv / (2 * π)
+        omegar =  1/100 * deltaDv/(2*pi)
 
         fun(t) = exp(-deltaDv^2 * t^2 / 2) * (sin(omegau * t) + cos(omegau * t) * omegar * t)
         
@@ -33,8 +33,8 @@ figure()
 pcolormesh(delta_Dvv, omegauv, gc_values, cmap="inferno")
 colorbar(label=L"Critical coupling strength $g_c$")
 xlabel(L"Initial ensemble temperature $\delta_D$")
-ylabel(L"Atomic frequency $\omega_\uparrow$")
-clim(10,30)
+ylabel(L"Atomic frequency $\Delta_e$")
+clim(10,70)
 grid(false)
 
 # Plot the line \omega_u * 1 / \delta_D = 1
